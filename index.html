@@ -12,12 +12,13 @@
 
     <!-- Ultra-Luxury Typography -->
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@200;300;400;500;600&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,500;1,6..96,300;1,6..96,400&family=Manrope:wght@200;300;400;500;600&display=swap");
 
       :root {
-        --bg-obsidian: #050505;
-        --text-pearl: #f3efea;
-        --accent-gold: #c49a6c;
+        --bg-obsidian: #090c09; /* Deep Forest Black */
+        --text-pearl: #f4f0ea; /* Alabaster Cream */
+        --accent-gold: #c5a880; /* Champagne Bronze */
+        --gold-glow: rgba(197, 168, 128, 0.05);
       }
 
       body {
@@ -28,6 +29,7 @@
         cursor: none;
         margin: 0;
         -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       body.loading-active {
@@ -38,11 +40,11 @@
         font-family: "Bodoni Moda", serif;
       }
 
-      /* --- 1. X-RAY INVERSION CURSOR --- */
+      /* --- 1. PREMIUM GLASS CURSOR --- */
       #cursor-dot {
-        width: 12px;
-        height: 12px;
-        background-color: #fff;
+        width: 4px;
+        height: 4px;
+        background-color: var(--accent-gold);
         border-radius: 50%;
         position: fixed;
         top: 0;
@@ -50,63 +52,52 @@
         pointer-events: none;
         z-index: 10000;
         transform: translate(-50%, -50%);
-        mix-blend-mode: difference; /* Inverts colors of everything beneath it */
-        transition: width 0.3s, height 0.3s;
+        transition: opacity 0.3s ease;
+      }
+      #cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(197, 168, 128, 0.4);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+          height 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease,
+          border-color 0.4s ease;
+      }
+
+      body.hover-active #cursor-ring {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(197, 168, 128, 0.08);
+        backdrop-filter: blur(4px);
+        border-color: var(--accent-gold);
       }
       body.hover-active #cursor-dot {
-        width: 80px;
-        height: 80px;
-      }
-
-      /* --- 2. KINETIC IMAGE TRAIL (THE WOW FACTOR) --- */
-      #hero-canvas {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        overflow: hidden;
-        pointer-events: none;
-      }
-      .trail-img {
-        position: absolute;
-        width: 350px;
-        height: 450px;
-        object-fit: cover;
-        border-radius: 4px;
-        transform: translate(-50%, -50%) scale(0.5);
         opacity: 0;
-        pointer-events: none;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        will-change: transform, opacity;
-        z-index: 2;
       }
 
-      /* --- 3. CINEMATIC PRELOADER --- */
-      #preloader {
+      /* --- 2. ATMOSPHERIC LIGHTING & NOISE --- */
+      .ambient-light {
         position: fixed;
-        inset: 0;
-        background-color: var(--bg-obsidian);
-        z-index: 999999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        width: 70vw;
+        height: 70vw;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        background: radial-gradient(
+          circle,
+          var(--gold-glow) 0%,
+          rgba(9, 12, 9, 0) 60%
+        );
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
       }
-      .loading-text {
-        font-family: "Bodoni Moda", serif;
-        font-size: 2rem;
-        font-style: italic;
-        color: var(--accent-gold);
-        opacity: 0;
-      }
-      #loading-percent {
-        margin-top: 20px;
-        font-size: 12px;
-        letter-spacing: 0.4em;
-        color: var(--text-pearl);
-        font-family: "Manrope", sans-serif;
-      }
-
-      /* --- 4. NOISE & LIGHTING --- */
       .noise {
         position: fixed;
         inset: 0;
@@ -120,13 +111,63 @@
         inset: 0;
         pointer-events: none;
         z-index: 40;
-        background: radial-gradient(circle, transparent 40%, #050505 120%);
+        background: radial-gradient(circle, transparent 40%, #050705 130%);
       }
 
-      /* --- 5. MICRO-INTERACTIONS --- */
+      /* --- 3. KINETIC IMAGE TRAIL (UPGRADED) --- */
+      #hero-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .trail-img {
+        position: absolute;
+        width: 320px;
+        height: 420px;
+        object-fit: cover;
+        border-radius: 2px;
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+        filter: blur(10px) brightness(0.8);
+        will-change: transform, opacity, filter;
+        z-index: 2;
+      }
+
+      /* --- 4. CINEMATIC PRELOADER --- */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        background-color: var(--bg-obsidian);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .loading-text {
+        font-family: "Bodoni Moda", serif;
+        font-size: 2.5rem;
+        font-weight: 300;
+        letter-spacing: 0.1em;
+        color: var(--accent-gold);
+        opacity: 0;
+      }
+      #loading-percent {
+        margin-top: 20px;
+        font-size: 11px;
+        letter-spacing: 0.5em;
+        color: rgba(244, 240, 234, 0.5);
+        font-family: "Manrope", sans-serif;
+      }
+
+      /* --- 5. MICRO-INTERACTIONS & REVEALS --- */
       .hover-line {
         position: relative;
-        padding-bottom: 4px;
+        padding-bottom: 6px;
         display: inline-block;
       }
       .hover-line::after {
@@ -137,7 +178,7 @@
         bottom: 0;
         left: 0;
         background-color: var(--accent-gold);
-        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
       .hover-line:hover::after {
         width: 100%;
@@ -145,7 +186,7 @@
 
       .clip-reveal {
         clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-        transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        transition: clip-path 1.8s cubic-bezier(0.77, 0, 0.175, 1);
       }
       .clip-reveal.is-visible {
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -154,8 +195,8 @@
       /* The Magnetic Button */
       .magnetic-wrap {
         display: inline-block;
-        padding: 20px;
-        margin: -20px;
+        padding: 30px;
+        margin: -30px;
       }
       .magnetic-btn {
         display: inline-block;
@@ -175,7 +216,7 @@
       .panel {
         width: 100%;
         min-height: auto;
-        padding: 4rem 2rem;
+        padding: 6rem 2rem;
         position: relative;
         z-index: 10;
         display: flex;
@@ -192,17 +233,17 @@
         .panel {
           width: 100vw;
           height: 100vh;
-          padding: 0 5vw;
+          padding: 0 6vw;
         }
       }
 
       /* Giant Hero Text */
       .hero-title {
-        font-size: 15vw;
+        font-size: 16vw;
         line-height: 0.8;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
         color: transparent;
-        -webkit-text-stroke: 1px rgba(243, 239, 234, 0.2);
+        -webkit-text-stroke: 1px rgba(197, 168, 128, 0.2);
         position: relative;
         z-index: 10;
         pointer-events: none;
@@ -210,32 +251,36 @@
       }
     </style>
   </head>
-  <body class="selection:bg-[#C49A6C] selection:text-[#050505] loading-active">
+  <body class="selection:bg-[#C5A880] selection:text-[#090C09] loading-active">
     <!-- PRELOADER -->
     <div id="preloader">
-      <div class="loading-text">Jèniva.</div>
+      <div class="loading-text">JÈNIVA</div>
       <div id="loading-percent">000</div>
     </div>
 
     <!-- UI FX -->
     <div class="noise"></div>
     <div class="vignette"></div>
+    <div class="ambient-light" id="mouse-light"></div>
+
+    <!-- LUXURY CURSOR -->
     <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
     <!-- NAVIGATION -->
     <nav
-      class="fixed w-full z-40 px-6 md:px-12 py-8 mix-blend-difference opacity-0 invisible"
+      class="fixed w-full z-40 px-8 md:px-14 py-8 opacity-0 invisible mix-blend-difference"
       id="main-nav"
     >
       <div
-        class="max-w-[1600px] mx-auto flex justify-between items-center text-[#F3EFEA]"
+        class="max-w-[1600px] mx-auto flex justify-between items-center text-[#F4F0EA]"
       >
         <div
           class="text-xl md:text-2xl tracking-[0.4em] uppercase font-light interactive-target"
         >
           JÈNIVA
           <span
-            class="text-[#C49A6C] italic font-editorial text-2xl md:text-3xl lowercase"
+            class="text-[#C5A880] italic font-editorial text-2xl md:text-3xl lowercase"
             >.</span
           >
         </div>
@@ -243,13 +288,19 @@
         <div
           class="hidden lg:flex gap-16 text-[10px] tracking-[0.3em] uppercase font-bold"
         >
-          <a href="#services" class="hover-line interactive-target">Atelier</a>
-          <a href="#gallery" class="hover-line interactive-target"
+          <a
+            href="#services"
+            class="hover-line interactive-target hover:text-[#C5A880] transition-colors"
+            >Our Process</a
+          >
+          <a
+            href="#gallery"
+            class="hover-line interactive-target hover:text-[#C5A880] transition-colors"
             >Exhibition</a
           >
           <a
             href="#booking"
-            class="hover-line interactive-target text-[#C49A6C]"
+            class="hover-line interactive-target text-[#C5A880]"
             >Commission</a
           >
         </div>
@@ -259,7 +310,7 @@
     <!-- THE KINETIC IMAGE TRAIL HERO -->
     <section
       id="home"
-      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#050505] interactive-target-area"
+      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#090C09] interactive-target-area"
     >
       <!-- Images spawn here when mouse moves -->
       <div id="hero-canvas"></div>
@@ -270,7 +321,7 @@
       >
         <h1 class="hero-title font-editorial">JÈNIVA</h1>
         <p
-          class="text-[10px] md:text-xs tracking-[0.6em] uppercase mt-8 text-[#C49A6C] font-semibold text-center w-full"
+          class="text-[10px] md:text-xs tracking-[0.6em] uppercase mt-8 text-[#C5A880] font-semibold text-center w-full"
         >
           Interactive Spatial Design & VR Prototyping
         </p>
@@ -278,12 +329,12 @@
 
       <!-- Scroll Indicator -->
       <div
-        class="absolute bottom-10 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.4em] uppercase text-[#F3EFEA]/40 flex flex-col items-center gap-4 z-20 gs-reveal-hero"
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.4em] uppercase text-[#F4F0EA]/40 flex flex-col items-center gap-4 z-20 gs-reveal-hero"
       >
         <span>Scroll</span>
-        <div class="w-[1px] h-12 bg-[#F3EFEA]/20 overflow-hidden relative">
+        <div class="w-[1px] h-12 bg-[#F4F0EA]/20 overflow-hidden relative">
           <div
-            class="w-full h-full bg-[#C49A6C] absolute top-[-100%] animate-[scrollDown_2s_infinite]"
+            class="w-full h-full bg-[#C5A880] absolute top-[-100%] animate-[scrollDown_2s_infinite]"
           ></div>
         </div>
       </div>
@@ -296,35 +347,36 @@
       </style>
     </section>
 
-    <!-- SERVICES (Ultra-Clean Split View) -->
+    <!-- SERVICES (The Updated Process Section) -->
     <section
       id="services"
-      class="py-32 md:py-48 px-6 md:px-12 bg-[#050505] relative z-10"
+      class="py-32 md:py-48 px-6 md:px-12 bg-[#090C09] relative z-10"
     >
       <div class="max-w-[1400px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           <div class="lg:col-span-5 sticky top-40 gs-reveal">
             <span
-              class="text-[10px] tracking-[0.4em] uppercase text-[#C49A6C] font-bold block mb-8"
-              >01 / The Atelier</span
+              class="text-[10px] tracking-[0.4em] uppercase text-[#C5A880] font-bold block mb-8"
+              >01 / The Process</span
             >
             <h2
-              class="text-5xl md:text-7xl font-editorial text-[#F3EFEA] mb-8 leading-[1.1]"
+              class="text-5xl md:text-7xl font-editorial text-[#F4F0EA] mb-8 leading-[1.1]"
             >
-              Rigorous <br /><span class="italic text-[#F3EFEA]/50"
-                >Materiality.</span
+              Architecting <br /><span class="italic text-[#F4F0EA]/50"
+                >Perfection.</span
               >
             </h2>
             <p
-              class="text-[#F3EFEA]/60 font-light text-sm md:text-base leading-relaxed max-w-sm mb-12"
+              class="text-[#F4F0EA]/60 font-light text-sm md:text-base leading-relaxed max-w-sm mb-12"
             >
-              We strip away the unnecessary, utilizing raw stone, blackened
-              timber, and light to curate profound psychological environments.
+              Our methodology is rooted in precision. From the initial abstract
+              vision to the final placement of stone, we engineer environments
+              of absolute luxury.
             </p>
             <div class="magnetic-wrap">
               <a
                 href="#booking"
-                class="magnetic-btn interactive-target text-[10px] tracking-[0.3em] uppercase border border-[#C49A6C] text-[#C49A6C] px-8 py-4 rounded-full hover:bg-[#C49A6C] hover:text-[#050505] transition-all duration-500 font-bold"
+                class="magnetic-btn interactive-target text-[10px] tracking-[0.3em] uppercase border border-[#C5A880] text-[#C5A880] px-8 py-4 rounded-full hover:bg-[#C5A880] hover:text-[#090C09] transition-all duration-500 font-bold"
               >
                 Initiate Dialogue
               </a>
@@ -332,24 +384,27 @@
           </div>
 
           <div class="lg:col-span-7 space-y-24 mt-16 lg:mt-0">
+            <!-- Process Step 1 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
-                  src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&q=80"
+                  src="https://i.pinimg.com/1200x/ba/a5/1c/baa51ceb2d82bac0b61b9cdaacb189b6.jpg"
                   class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F3EFEA] mb-4 group-hover:text-[#C49A6C] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
               >
-                Sensory Deprivation
+                1. Conceptualization & Planning
               </h3>
-              <p class="text-sm text-[#F3EFEA]/50 font-light max-w-md">
-                Master suites engineered for total acoustic isolation and
-                absolute darkness.
+              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+                Establishing the foundational narrative. We translate your
+                abstract desires into rigorous spatial layouts, balancing
+                psychological comfort with pure architectural geometry.
               </p>
             </div>
 
+            <!-- Process Step 2 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
@@ -358,31 +413,54 @@
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F3EFEA] mb-4 group-hover:text-[#C49A6C] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
               >
-                Living Sculptures
+                2. Specification & Selection
               </h3>
-              <p class="text-sm text-[#F3EFEA]/50 font-light max-w-md">
-                Open volumes that flow effortlessly, using light as a primary
-                building material.
+              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+                Curating the physical palette. Every slab of stone, piece of
+                blackened timber, and light fixture is meticulously sourced and
+                selected to ensure uncompromising tactile luxury.
               </p>
             </div>
 
+            <!-- Process Step 3 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
-                  src="https://images.unsplash.com/photo-1592477976530-fa609139886c?auto=format&fit=crop&q=80"
+                  src="https://in.pinterest.com/pin/735494182939126137/"
                   class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F3EFEA] mb-4 group-hover:text-[#C49A6C] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
               >
-                VR Prototyping
+                3. Project Management & Execution
               </h3>
-              <p class="text-sm text-[#F3EFEA]/50 font-light max-w-md">
-                Walk through 1:1 scale digital twins of your property before
-                demolition begins.
+              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+                Bringing the simulation to reality. We orchestrate elite
+                craftsmen and engineers, ensuring the final environment reflects
+                the initial blueprint with microscopic precision.
+              </p>
+            </div>
+
+            <!-- Process Step 4 -->
+            <div class="gs-reveal group interactive-target">
+              <div class="overflow-hidden rounded-sm mb-8 relative">
+                <img
+                  src="https://i.pinimg.com/736x/ad/73/9d/ad739d692169e0290109ac86d5e27635.jpg"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
+                />
+              </div>
+              <h3
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
+              >
+                4. Hae Concrete
+              </h3>
+              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+                Mastering the monolithic aesthetic. We utilize proprietary,
+                high-end concrete formulations to sculpt seamless, brutalist
+                structures that command both presence and permanence.
               </p>
             </div>
           </div>
@@ -393,20 +471,20 @@
     <!-- HORIZONTAL GALLERY (The Archives) -->
     <section
       id="gallery"
-      class="bg-[#030303] overflow-hidden border-y border-[#F3EFEA]/5 relative z-10"
+      class="bg-[#050705] overflow-hidden border-y border-[#F4F0EA]/5 relative z-10"
     >
       <div class="horizontal-scroll-wrapper lg:h-screen flex items-center">
         <div class="horizontal-slider">
           <div class="panel">
             <div class="max-w-[1400px] w-full mx-auto gs-reveal">
               <span
-                class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#C49A6C] font-bold block mb-8"
+                class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#C5A880] font-bold block mb-8"
                 >02 / The Archives</span
               >
               <h2
-                class="text-6xl md:text-8xl lg:text-[10rem] font-editorial text-[#F3EFEA] max-w-4xl leading-[1] lg:leading-[0.85]"
+                class="text-6xl md:text-8xl lg:text-[10rem] font-editorial text-[#F4F0EA] max-w-4xl leading-[1] lg:leading-[0.85]"
               >
-                Exhibition <br /><span class="italic text-[#F3EFEA]/30"
+                Exhibition <br /><span class="italic text-[#F4F0EA]/30"
                   >Spaces.</span
                 >
               </h2>
@@ -427,18 +505,18 @@
               </div>
               <div class="w-full lg:w-5/12">
                 <p
-                  class="text-[10px] tracking-[0.4em] uppercase text-[#C49A6C] mb-6 font-bold"
+                  class="text-[10px] tracking-[0.4em] uppercase text-[#C5A880] mb-6 font-bold"
                 >
                   Jubilee Hills
                 </p>
                 <h3
-                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F3EFEA] leading-tight"
+                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F4F0EA] leading-tight"
                 >
                   The Onyx <br class="hidden lg:block" />Estate
                 </h3>
                 <a
                   href="#"
-                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F3EFEA] hover-line interactive-target hover:text-[#C49A6C] transition-colors"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F4F0EA] hover-line interactive-target hover:text-[#C5A880] transition-colors"
                   >Explore Volume</a
                 >
               </div>
@@ -459,18 +537,18 @@
               </div>
               <div class="w-full lg:w-5/12 text-left lg:text-right">
                 <p
-                  class="text-[10px] tracking-[0.4em] uppercase text-[#C49A6C] mb-6 font-bold"
+                  class="text-[10px] tracking-[0.4em] uppercase text-[#C5A880] mb-6 font-bold"
                 >
                   Banjara Hills
                 </p>
                 <h3
-                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F3EFEA] leading-tight"
+                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F4F0EA] leading-tight"
                 >
                   Golden <br class="hidden lg:block" />Minimalism
                 </h3>
                 <a
                   href="#"
-                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F3EFEA] hover-line interactive-target hover:text-[#C49A6C] transition-colors"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F4F0EA] hover-line interactive-target hover:text-[#C5A880] transition-colors"
                   >Explore Volume</a
                 >
               </div>
@@ -483,50 +561,50 @@
     <!-- COMMISSION SECTION -->
     <section
       id="booking"
-      class="py-32 md:py-48 px-6 md:px-8 bg-[#050505] relative z-10"
+      class="py-32 md:py-48 px-6 md:px-8 bg-[#090C09] relative z-10"
     >
       <div class="max-w-4xl mx-auto text-center gs-reveal">
         <h2
-          class="text-5xl md:text-7xl lg:text-9xl font-editorial mb-8 text-[#F3EFEA] leading-[1] md:leading-[0.9]"
+          class="text-5xl md:text-7xl lg:text-9xl font-editorial mb-8 text-[#F4F0EA] leading-[1] md:leading-[0.9]"
         >
           Commission <br class="hidden md:block" /><span
-            class="italic text-[#C49A6C]"
+            class="italic text-[#C5A880]"
             >Jèniva.</span
           >
         </h2>
         <p
-          class="text-[#F3EFEA]/50 mb-16 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-xl"
+          class="text-[#F4F0EA]/50 mb-16 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-xl"
         >
           We execute a strictly limited number of commissions per fiscal year.
           Provide your coordinates below.
         </p>
 
         <form class="space-y-12 md:space-y-20 text-left">
-          <div class="border-b border-[#F3EFEA]/20 py-4 md:py-6 relative group">
+          <div class="border-b border-[#F4F0EA]/20 py-4 md:py-6 relative group">
             <input
               type="text"
               placeholder="Name / Designation"
-              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F3EFEA]/30 text-[#F3EFEA] interactive-target"
+              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F4F0EA]/30 text-[#F4F0EA] interactive-target"
             />
             <div
-              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C49A6C] transition-all duration-700 group-hover:w-full"
+              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C5A880] transition-all duration-700 group-hover:w-full"
             ></div>
           </div>
-          <div class="border-b border-[#F3EFEA]/20 py-4 md:py-6 relative group">
+          <div class="border-b border-[#F4F0EA]/20 py-4 md:py-6 relative group">
             <input
               type="email"
               placeholder="Direct Email"
-              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F3EFEA]/30 text-[#F3EFEA] interactive-target"
+              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F4F0EA]/30 text-[#F4F0EA] interactive-target"
             />
             <div
-              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C49A6C] transition-all duration-700 group-hover:w-full"
+              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C5A880] transition-all duration-700 group-hover:w-full"
             ></div>
           </div>
 
           <div class="mt-16 md:mt-24 w-full flex justify-center">
             <div class="magnetic-wrap">
               <button
-                class="interactive-target magnetic-btn bg-[#C49A6C] text-[#050505] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F3EFEA] transition-colors duration-500 font-bold"
+                class="interactive-target magnetic-btn bg-[#C5A880] text-[#090C09] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F4F0EA] transition-colors duration-500 font-bold"
               >
                 Transmit Request
               </button>
@@ -538,23 +616,23 @@
 
     <!-- FOOTER -->
     <footer
-      class="py-16 md:py-32 px-6 md:px-12 border-t border-[#F3EFEA]/10 bg-[#050505] relative z-10"
+      class="py-16 md:py-32 px-6 md:px-12 border-t border-[#F4F0EA]/10 bg-[#090C09] relative z-10"
     >
       <div
         class="max-w-[1600px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-24"
       >
         <div class="w-full lg:w-auto">
           <div
-            class="text-3xl md:text-4xl tracking-[0.4em] uppercase font-light text-[#F3EFEA] mb-4 md:mb-6"
+            class="text-3xl md:text-4xl tracking-[0.4em] uppercase font-light text-[#F4F0EA] mb-4 md:mb-6"
           >
             JÈNIVA
             <span
-              class="text-[#C49A6C] italic font-editorial text-4xl md:text-5xl lowercase"
+              class="text-[#C5A880] italic font-editorial text-4xl md:text-5xl lowercase"
               >.</span
             >
           </div>
           <p
-            class="text-xs md:text-base text-[#F3EFEA]/50 max-w-sm font-light leading-relaxed"
+            class="text-xs md:text-base text-[#F4F0EA]/50 max-w-sm font-light leading-relaxed"
           >
             Operated by Phani Krishna Thirunagari. <br />Engineering
             psychological comfort through rigid materiality.
@@ -564,30 +642,30 @@
         <div
           class="flex flex-col md:flex-row gap-10 md:gap-40 text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-bold w-full lg:w-auto"
         >
-          <ul class="space-y-6 text-[#F3EFEA]">
+          <ul class="space-y-6 text-[#F4F0EA]">
             <li
-              class="text-[#C49A6C] mb-8 font-editorial italic text-lg md:text-xl lowercase"
+              class="text-[#C5A880] mb-8 font-editorial italic text-lg md:text-xl lowercase"
             >
               Network
             </li>
             <li>
               <a
                 href="#"
-                class="hover:text-[#C49A6C] transition-colors interactive-target"
+                class="hover:text-[#C5A880] transition-colors interactive-target"
                 >Instagram</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="hover:text-[#C49A6C] transition-colors interactive-target"
+                class="hover:text-[#C5A880] transition-colors interactive-target"
                 >Behance</a
               >
             </li>
           </ul>
-          <ul class="space-y-6 text-[#F3EFEA]">
+          <ul class="space-y-6 text-[#F4F0EA]">
             <li
-              class="text-[#C49A6C] mb-8 font-editorial italic text-lg md:text-xl lowercase"
+              class="text-[#C5A880] mb-8 font-editorial italic text-lg md:text-xl lowercase"
             >
               HQ
             </li>
@@ -653,8 +731,11 @@
         });
       }
 
-      // --- 2. X-RAY CURSOR LOGIC ---
+      // --- 2. LUXURY DOT & RING CURSOR LOGIC ---
       const cursorDot = document.getElementById("cursor-dot");
+      const cursorRing = document.getElementById("cursor-ring");
+      const mouseLight = document.getElementById("mouse-light");
+
       let xToDot = gsap.quickTo(cursorDot, "x", {
         duration: 0.1,
         ease: "power3",
@@ -663,11 +744,28 @@
         duration: 0.1,
         ease: "power3",
       });
+      let xToRing = gsap.quickTo(cursorRing, "x", {
+        duration: 0.4,
+        ease: "power3",
+      });
+      let yToRing = gsap.quickTo(cursorRing, "y", {
+        duration: 0.4,
+        ease: "power3",
+      });
 
       window.addEventListener("mousemove", (e) => {
         if (window.matchMedia("(pointer: fine)").matches) {
           xToDot(e.clientX);
           yToDot(e.clientY);
+          xToRing(e.clientX);
+          yToRing(e.clientY);
+
+          gsap.to(mouseLight, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 1.5,
+            ease: "power2.out",
+          });
         }
       });
 
