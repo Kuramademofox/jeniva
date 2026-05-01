@@ -1,406 +1,933 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JÈNIVA | Elite Interiors</title>
+    <title>JÈNIVA | Haute Couture Architecture</title>
 
     <!-- Tailwind & GSAP -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- High-End Typography: Bodoni Moda (Classic) + Manrope (Niche/Modern) -->
+    <!-- Ultra-Luxury Typography -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@200;300;400;500&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,500;1,6..96,300;1,6..96,400&family=Manrope:wght@200;300;400;500;600&display=swap");
 
-        :root {
-            --bg-obsidian: #070707;
-            --bg-charcoal: #0d0d0d;
-            --text-cashmere: #F3EFEA;
-            --accent-bronze: #C49A6C;
-        }
+      :root {
+        --bg-obsidian: #050404; /* Slightly warmer deep black */
+        --text-pearl: #f9f6f0; /* Soft cashmere white */
+        --accent-gold: #d4af37; /* True Champagne Gold */
+        --gold-glow: rgba(212, 175, 55, 0.05);
+      }
 
-        body {
-            font-family: "Manrope", sans-serif;
-            background-color: var(--bg-obsidian);
-            color: var(--text-cashmere);
-            overflow-x: hidden;
-            cursor: none; /* Hide default cursor */
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-        }
+      body {
+        font-family: "Manrope", sans-serif;
+        background-color: var(--bg-obsidian);
+        color: var(--text-pearl);
+        overflow-x: hidden;
+        cursor: none;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
 
-        .font-editorial { font-family: "Bodoni Moda", serif; }
+      body.loading-active {
+        overflow: hidden;
+        height: 100vh;
+      }
+      .font-editorial {
+        font-family: "Bodoni Moda", serif;
+      }
 
-        /* --- 1. PREMIUM CURSOR --- */
-        #cursor-dot {
-            width: 8px; height: 8px;
-            background-color: #FFFFFF;
-            border-radius: 50%;
-            position: fixed; top: 0; left: 0;
-            pointer-events: none; z-index: 10000;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #cursor-ring {
-            width: 36px; height: 36px;
-            border: 1px solid var(--accent-bronze);
-            border-radius: 50%;
-            position: fixed; top: 0; left: 0;
-            pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                        height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        background-color 0.4s ease, border-color 0.4s ease;
-        }
-        
-        /* Cursor Hover States (Highly Visible) */
-        body.hover-active #cursor-ring {
-            width: 75px; height: 75px;
-            background-color: rgba(196, 154, 108, 0.08);
-            backdrop-filter: blur(4px);
-            border-color: rgba(196, 154, 108, 0.6);
-        }
-        body.hover-active #cursor-dot {
-            transform: translate(-50%, -50%) scale(0.4);
-        }
+      /* --- 1. PREMIUM GLASS CURSOR --- */
+      #cursor-dot {
+        width: 4px;
+        height: 4px;
+        background-color: var(--accent-gold);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 10000;
+        transform: translate(-50%, -50%);
+        transition: opacity 0.3s ease;
+      }
+      #cursor-ring {
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(212, 175, 55, 0.4);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+          height 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease,
+          border-color 0.4s ease;
+      }
 
-        /* --- 2. MOODY ATMOSPHERE --- */
-        .ambient-light {
-            position: fixed; width: 60vw; height: 60vw;
-            border-radius: 50%; top: 50%; left: 50%;
-            background: radial-gradient(circle, rgba(196, 154, 108, 0.05) 0%, rgba(7,7,7,0) 70%);
-            transform: translate(-50%, -50%);
-            pointer-events: none; z-index: 0;
-        }
-        .noise {
-            position: fixed; inset: 0; z-index: 51; pointer-events: none; opacity: 0.04;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+      body.hover-active #cursor-ring {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(212, 175, 55, 0.08);
+        backdrop-filter: blur(4px);
+        border-color: var(--accent-gold);
+      }
+      body.hover-active #cursor-dot {
+        opacity: 0;
+      }
 
-        /* --- 3. VISIBLE HOVER EFFECTS --- */
-        .hover-text-bronze { transition: color 0.4s ease; }
-        .hover-text-bronze:hover { color: var(--accent-bronze) !important; }
+      /* --- 2. ATMOSPHERIC LIGHTING & NOISE --- */
+      .ambient-light {
+        position: fixed;
+        width: 70vw;
+        height: 70vw;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        background: radial-gradient(
+          circle,
+          var(--gold-glow) 0%,
+          rgba(5, 4, 4, 0) 60%
+        );
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .noise {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        pointer-events: none;
+        opacity: 0.03;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+      .vignette {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 40;
+        background: radial-gradient(circle, transparent 40%, #050404 130%);
+      }
 
-        .hover-line { position: relative; padding-bottom: 4px; display: inline-block; }
-        .hover-line::after {
-            content: ""; position: absolute; width: 0; height: 1px; bottom: 0; left: 0;
-            background-color: var(--accent-bronze); transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      /* --- 3. KINETIC IMAGE TRAIL (UPGRADED) --- */
+      #hero-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .trail-img {
+        position: absolute;
+        width: 320px;
+        height: 420px;
+        object-fit: cover;
+        border-radius: 2px; /* Sharper edges feel more high-end */
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+        filter: blur(10px) brightness(0.8); /* Cinematic fade-in */
+        will-change: transform, opacity, filter;
+        z-index: 2;
+      }
+
+      /* --- 4. CINEMATIC PRELOADER --- */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        background-color: var(--bg-obsidian);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .loading-text {
+        font-family: "Bodoni Moda", serif;
+        font-size: 2.5rem;
+        font-weight: 300;
+        letter-spacing: 0.1em;
+        color: var(--accent-gold);
+        opacity: 0;
+      }
+      #loading-percent {
+        margin-top: 20px;
+        font-size: 11px;
+        letter-spacing: 0.5em;
+        color: rgba(249, 246, 240, 0.5);
+        font-family: "Manrope", sans-serif;
+      }
+
+      /* --- 5. MICRO-INTERACTIONS & REVEALS --- */
+      .hover-line {
+        position: relative;
+        padding-bottom: 6px;
+        display: inline-block;
+      }
+      .hover-line::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: var(--accent-gold);
+        transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .hover-line:hover::after {
+        width: 100%;
+      }
+
+      .clip-reveal {
+        clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+        transition: clip-path 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      .clip-reveal.is-visible {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+
+      /* The Magnetic Button */
+      .magnetic-wrap {
+        display: inline-block;
+        padding: 30px;
+        margin: -30px;
+      }
+      .magnetic-btn {
+        display: inline-block;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      /* --- 6. HORIZONTAL SCROLL OVERRIDES --- */
+      .horizontal-scroll-wrapper {
+        width: 100%;
+        overflow: hidden;
+      }
+      .horizontal-slider {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .panel {
+        width: 100%;
+        min-height: auto;
+        padding: 6rem 2rem;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      @media (min-width: 1024px) {
+        .horizontal-slider {
+          flex-direction: row;
+          width: 300vw;
+          flex-wrap: nowrap;
         }
-        .hover-line:hover::after { width: 100%; }
-
-        /* --- 4. CINEMATIC REVEALS --- */
-        .clip-reveal {
-            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-            transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+        .panel {
+          width: 100vw;
+          height: 100vh;
+          padding: 0 6vw;
         }
-        .clip-reveal.is-visible { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+      }
 
-        .magnetic-wrap { display: inline-block; padding: 20px; margin: -20px; }
-        .magnetic-btn { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+      /* Giant Hero Text */
+      .hero-title {
+        font-size: 16vw;
+        line-height: 0.8;
+        letter-spacing: -0.03em;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(212, 175, 55, 0.15); /* Faint gold stroke */
+        position: relative;
+        z-index: 10;
+        pointer-events: none;
+      }
 
-        /* Horizontal Slider */
-        .horizontal-slider { width: 300vw; display: flex; flex-wrap: nowrap; }
-        .panel { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; padding: 0 5vw; position: relative; z-index: 10;}
-        
-        /* Darker Image Overlay for Contrast */
-        .img-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(7,7,7,0.8), rgba(7,7,7,0.2));
-            pointer-events: none; z-index: 1;
-        }
+      /* Input Underline Glow */
+      .input-group input:focus + .input-line {
+        background-color: var(--accent-gold);
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+      }
     </style>
-</head>
-<body class="selection:bg-[#C49A6C] selection:text-[#070707]">
+  </head>
+  <body class="selection:bg-[#D4AF37] selection:text-[#050404] loading-active">
+    <!-- PRELOADER -->
+    <div id="preloader">
+      <div class="loading-text">JÈNIVA</div>
+      <div id="loading-percent">000</div>
+    </div>
 
-    <!-- NOISE, LIGHTING & CURSOR -->
+    <!-- UI FX -->
     <div class="noise"></div>
+    <div class="vignette"></div>
     <div class="ambient-light" id="mouse-light"></div>
+
+    <!-- LUXURY CURSOR -->
     <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
 
     <!-- NAVIGATION -->
-    <nav class="fixed w-full z-40 bg-[#070707]/60 backdrop-blur-2xl border-b border-[#F3EFEA]/10 px-10 py-6">
-        <div class="max-w-[1600px] mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-6 interactive-target">
-                <div class="text-2xl tracking-[0.3em] uppercase font-light text-[#F3EFEA]">
-                    JÈNIVA <span class="text-[#C49A6C] italic font-editorial text-3xl lowercase relative top-1">.</span>
-                </div>
-            </div>
-
-            <div class="hidden md:flex gap-14 text-[11px] tracking-[0.25em] uppercase font-medium text-[#F3EFEA]">
-                <a href="#home" class="hover-line interactive-target hover-text-bronze">Prologue</a>
-                <a href="#services" class="hover-line interactive-target hover-text-bronze">Atelier</a>
-                <a href="#gallery" class="hover-line interactive-target hover-text-bronze">Archives</a>
-            </div>
-
-            <div class="magnetic-wrap">
-                <a href="#booking" class="magnetic-btn interactive-target text-[10px] tracking-[0.25em] uppercase border border-[#C49A6C] text-[#C49A6C] px-8 py-4 rounded-full hover:bg-[#C49A6C] hover:text-[#070707] transition-all duration-500 font-bold">
-                    Consult
-                </a>
-            </div>
+    <nav
+      class="fixed w-full z-40 px-8 md:px-14 py-8 opacity-0 invisible mix-blend-difference"
+      id="main-nav"
+    >
+      <div
+        class="max-w-[1600px] mx-auto flex justify-between items-center text-[#F9F6F0]"
+      >
+        <div
+          class="text-xl md:text-2xl tracking-[0.5em] uppercase font-light interactive-target"
+        >
+          JÈNIVA
+          <span
+            class="text-[#D4AF37] italic font-editorial text-2xl md:text-3xl lowercase"
+            >.</span
+          >
         </div>
+
+        <div
+          class="hidden lg:flex gap-16 text-[10px] tracking-[0.4em] uppercase font-semibold"
+        >
+          <a
+            href="#services"
+            class="hover-line interactive-target transition-colors hover:text-[#D4AF37]"
+            >Atelier</a
+          >
+          <a
+            href="#gallery"
+            class="hover-line interactive-target transition-colors hover:text-[#D4AF37]"
+            >Exhibition</a
+          >
+          <a
+            href="#booking"
+            class="hover-line interactive-target text-[#D4AF37]"
+            >Commission</a
+          >
+        </div>
+      </div>
     </nav>
 
-    <!-- HERO SECTION (Parallax Mouse Movement) -->
-    <section id="home" class="min-h-screen relative flex items-center justify-center pt-20 px-8 z-10 overflow-hidden" id="hero-section">
-        
-        <!-- Background Hero Image -->
-        <div class="absolute inset-0 z-0 bg-[#070707]">
-            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80" 
-                 class="w-[110%] h-[110%] object-cover opacity-50 relative -top-[5%] -left-[5%]" 
-                 id="hero-img" alt="Dark Interior" />
-            <div class="img-overlay"></div>
-        </div>
+    <!-- THE KINETIC IMAGE TRAIL HERO -->
+    <section
+      id="home"
+      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#050404] interactive-target-area"
+    >
+      <!-- Images spawn here when mouse moves -->
+      <div id="hero-canvas"></div>
 
-        <div class="relative z-10 flex flex-col items-center text-center max-w-5xl mx-auto gs-reveal">
-            <p class="text-xs tracking-[0.4em] uppercase mb-12 text-[#C49A6C] font-medium">
-                The Architecture of Emotion
+      <!-- Massive Background Text -->
+      <div
+        class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 gs-reveal-hero"
+      >
+        <h1 class="hero-title font-editorial">JÈNIVA</h1>
+        <p
+          class="text-[10px] md:text-xs tracking-[0.8em] uppercase mt-10 text-[#D4AF37] font-semibold text-center w-full"
+        >
+          Experiential Spatial Design
+        </p>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div
+        class="absolute bottom-12 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.5em] uppercase text-[#F9F6F0]/40 flex flex-col items-center gap-6 z-20 gs-reveal-hero"
+      >
+        <span>Scroll</span>
+        <div class="w-[1px] h-16 bg-[#F9F6F0]/10 overflow-hidden relative">
+          <div
+            class="w-full h-full bg-[#D4AF37] absolute top-[-100%] animate-[scrollDown_2.5s_infinite_cubic-bezier(0.77,0,0.175,1)]"
+          ></div>
+        </div>
+      </div>
+      <style>
+        @keyframes scrollDown {
+          0% {
+            top: -100%;
+          }
+          100% {
+            top: 100%;
+          }
+        }
+      </style>
+    </section>
+
+    <!-- SERVICES (Ultra-Clean Split View) -->
+    <section
+      id="services"
+      class="py-32 md:py-48 px-8 md:px-14 bg-[#050404] relative z-10 border-t border-[#F9F6F0]/5"
+    >
+      <div class="max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+          <div class="lg:col-span-5 sticky top-48 gs-reveal">
+            <span
+              class="text-[10px] tracking-[0.5em] uppercase text-[#D4AF37] font-semibold block mb-8"
+            >
+              01 / The Atelier
+            </span>
+            <h2
+              class="text-5xl md:text-7xl font-editorial text-[#F9F6F0] font-light mb-10 leading-[1.1]"
+            >
+              Rigorous <br /><span class="italic text-[#D4AF37]"
+                >Materiality.</span
+              >
+            </h2>
+            <p
+              class="text-[#F9F6F0]/50 font-light text-sm md:text-base leading-loose max-w-sm mb-16"
+            >
+              We strip away the unnecessary, utilizing raw stone, blackened
+              timber, and light to curate profound psychological environments of
+              absolute luxury.
             </p>
-            
-            <h1 class="text-7xl md:text-[9.5rem] font-editorial leading-[0.85] mb-12 text-[#F3EFEA] tracking-tight">
-                Shadow <br>
-                <span class="italic text-[#C49A6C] font-light text-6xl md:text-[8.5rem]">&</span> Light.
-            </h1>
-            
-            <p class="max-w-xl text-[#F3EFEA]/80 font-light leading-relaxed mb-16 text-lg mx-auto">
-                Designing profound spatial experiences. We merge raw, brutalist materials with the delicate warmth of ambient illumination.
-            </p>
-            
             <div class="magnetic-wrap">
-                <a href="#gallery" class="magnetic-btn interactive-target text-[11px] tracking-[0.3em] uppercase bg-transparent border border-[#F3EFEA]/30 text-[#F3EFEA] px-14 py-6 rounded-full hover:border-[#C49A6C] hover:bg-[#C49A6C] hover:text-[#070707] transition-all duration-500 font-bold">
-                    Discover The Archives
-                </a>
+              <a
+                href="#booking"
+                class="magnetic-btn interactive-target text-[10px] tracking-[0.4em] uppercase border border-[#D4AF37] text-[#D4AF37] px-10 py-5 rounded-full hover:bg-[#D4AF37] hover:text-[#050404] transition-all duration-700 font-bold"
+              >
+                Initiate Dialogue
+              </a>
             </div>
+          </div>
+
+          <div class="lg:col-span-7 space-y-32 mt-16 lg:mt-0">
+            <div class="gs-reveal group interactive-target">
+              <div class="overflow-hidden rounded-sm mb-10 relative">
+                <img
+                  src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&q=80"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
+                />
+              </div>
+              <h3
+                class="text-3xl md:text-5xl font-editorial text-[#F9F6F0] font-light mb-6 group-hover:text-[#D4AF37] group-hover:italic transition-colors duration-500"
+              >
+                Sensory Deprivation
+              </h3>
+              <p
+                class="text-sm text-[#F9F6F0]/40 font-light max-w-md leading-relaxed"
+              >
+                Master suites engineered for total acoustic isolation, utilizing
+                heavy velvet draping and absolute darkness control.
+              </p>
+            </div>
+
+            <div class="gs-reveal group interactive-target">
+              <div class="overflow-hidden rounded-sm mb-10 relative">
+                <img
+                  src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
+                />
+              </div>
+              <h3
+                class="text-3xl md:text-5xl font-editorial text-[#F9F6F0] font-light mb-6 group-hover:text-[#D4AF37] group-hover:italic transition-colors duration-500"
+              >
+                Living Sculptures
+              </h3>
+              <p
+                class="text-sm text-[#F9F6F0]/40 font-light max-w-md leading-relaxed"
+              >
+                Open volumes that flow effortlessly, using natural and
+                artificial light as a primary, tactile building material.
+              </p>
+            </div>
+
+            <div class="gs-reveal group interactive-target">
+              <div class="overflow-hidden rounded-sm mb-10 relative">
+                <img
+                  src="https://images.unsplash.com/photo-1592477976530-fa609139886c?auto=format&fit=crop&q=80"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
+                />
+              </div>
+              <h3
+                class="text-3xl md:text-5xl font-editorial text-[#F9F6F0] font-light mb-6 group-hover:text-[#D4AF37] group-hover:italic transition-colors duration-500"
+              >
+                VR Prototyping
+              </h3>
+              <p
+                class="text-sm text-[#F9F6F0]/40 font-light max-w-md leading-relaxed"
+              >
+                Walk through 1:1 scale hyper-realistic digital twins of your
+                property before a single wall is demolished.
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- SERVICES (Elevated Minimalist List) -->
-    <section id="services" class="py-40 px-8 bg-[#070707] relative z-10">
-        <div class="max-w-[1400px] mx-auto relative">
-            <div class="border-b border-[#F3EFEA]/10 pb-12 mb-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 gs-reveal">
-                <h2 class="text-5xl md:text-7xl font-editorial text-[#F3EFEA] font-light">The Atelier.</h2>
-                <p class="text-[#F3EFEA]/60 max-w-sm font-light text-sm leading-relaxed">A highly focused practice dedicated to spatial psychology, tactile materiality, and 1:1 scale virtual prototyping.</p>
+    <!-- HORIZONTAL GALLERY (The Archives) -->
+    <section
+      id="gallery"
+      class="bg-[#030303] overflow-hidden border-y border-[#F9F6F0]/5 relative z-10"
+    >
+      <div class="horizontal-scroll-wrapper lg:h-screen flex items-center">
+        <div class="horizontal-slider">
+          <div class="panel">
+            <div class="max-w-[1400px] w-full mx-auto gs-reveal">
+              <span
+                class="text-[10px] md:text-[11px] uppercase tracking-[0.5em] text-[#D4AF37] font-semibold block mb-10"
+              >
+                02 / The Archives
+              </span>
+              <h2
+                class="text-6xl md:text-8xl lg:text-[11rem] font-editorial text-[#F9F6F0] max-w-4xl leading-[1] lg:leading-[0.85] font-light"
+              >
+                Exhibition <br /><span class="italic text-[#F9F6F0]/30"
+                  >Spaces.</span
+                >
+              </h2>
             </div>
+          </div>
 
-            <div class="space-y-0">
-                <!-- Service Rows with Strong Contrast Hover -->
-                <div class="group border-b border-[#F3EFEA]/10 py-14 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer interactive-target gs-reveal transition-all duration-500 hover:bg-[#111111] hover:px-8">
-                    <h3 class="text-4xl md:text-5xl font-editorial text-[#F3EFEA] group-hover:text-[#C49A6C] group-hover:italic transition-all duration-500">01. Rest & Isolation</h3>
-                    <p class="text-sm text-[#F3EFEA]/50 max-w-md mt-6 md:mt-0 font-light group-hover:text-[#F3EFEA] transition-colors leading-relaxed">Sensory-deprived bedroom environments utilizing acoustic paneling and absolute darkness control.</p>
-                </div>
-                
-                <div class="group border-b border-[#F3EFEA]/10 py-14 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer interactive-target gs-reveal transition-all duration-500 hover:bg-[#111111] hover:px-8">
-                    <h3 class="text-4xl md:text-5xl font-editorial text-[#F3EFEA] group-hover:text-[#C49A6C] group-hover:italic transition-all duration-500">02. Culinary Monoliths</h3>
-                    <p class="text-sm text-[#F3EFEA]/50 max-w-md mt-6 md:mt-0 font-light group-hover:text-[#F3EFEA] transition-colors leading-relaxed">Kitchen spaces designed as seamless stone monuments, hiding profound functional engineering behind minimal facades.</p>
-                </div>
-                
-                <div class="group border-b border-[#F3EFEA]/10 py-14 flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer interactive-target gs-reveal transition-all duration-500 hover:bg-[#111111] hover:px-8">
-                    <h3 class="text-4xl md:text-5xl font-editorial text-[#F3EFEA] group-hover:text-[#C49A6C] group-hover:italic transition-all duration-500">03. Spatial Flow</h3>
-                    <p class="text-sm text-[#F3EFEA]/50 max-w-md mt-6 md:mt-0 font-light group-hover:text-[#F3EFEA] transition-colors leading-relaxed">Dismantling legacy barriers to curate seamless transition spaces for modern, open-concept living.</p>
-                </div>
+          <div class="panel">
+            <div
+              class="w-full max-w-[1400px] lg:h-[80vh] flex flex-col lg:flex-row gap-12 lg:gap-24 items-center"
+            >
+              <div
+                class="w-full lg:w-7/12 h-[45vh] lg:h-full overflow-hidden rounded-sm clip-reveal gs-horizontal interactive-target group"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2.5s] ease-out opacity-80 group-hover:opacity-100"
+                />
+              </div>
+              <div class="w-full lg:w-5/12">
+                <p
+                  class="text-[10px] tracking-[0.5em] uppercase text-[#D4AF37] mb-8 font-semibold"
+                >
+                  Jubilee Hills
+                </p>
+                <h3
+                  class="text-4xl md:text-6xl lg:text-7xl font-editorial font-light mb-10 text-[#F9F6F0] leading-tight"
+                >
+                  The Onyx <br class="hidden lg:block" />Estate
+                </h3>
+                <a
+                  href="#"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F9F6F0] hover-line interactive-target hover:text-[#D4AF37] transition-colors"
+                  >Explore Volume</a
+                >
+              </div>
             </div>
+          </div>
+
+          <div class="panel">
+            <div
+              class="w-full max-w-[1400px] lg:h-[80vh] flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:flex-row-reverse"
+            >
+              <div
+                class="w-full lg:w-7/12 h-[45vh] lg:h-full overflow-hidden rounded-sm clip-reveal gs-horizontal interactive-target group"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2.5s] ease-out opacity-80 group-hover:opacity-100"
+                />
+              </div>
+              <div class="w-full lg:w-5/12 text-left lg:text-right">
+                <p
+                  class="text-[10px] tracking-[0.5em] uppercase text-[#D4AF37] mb-8 font-semibold"
+                >
+                  Banjara Hills
+                </p>
+                <h3
+                  class="text-4xl md:text-6xl lg:text-7xl font-editorial font-light mb-10 text-[#F9F6F0] leading-tight"
+                >
+                  Golden <br class="hidden lg:block" />Minimalism
+                </h3>
+                <a
+                  href="#"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F9F6F0] hover-line interactive-target hover:text-[#D4AF37] transition-colors"
+                  >Explore Volume</a
+                >
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- HORIZONTAL SCROLL GALLERY (Cinematic Exhibition) -->
-    <section id="gallery" class="bg-[#0a0a0a] overflow-hidden border-y border-[#F3EFEA]/10 relative z-10">
-        <div class="horizontal-scroll-wrapper h-screen flex items-center">
-            <div class="horizontal-slider">
-                
-                <!-- Panel 1 -->
-                <div class="panel w-screen flex-shrink-0 flex flex-col justify-center">
-                    <div class="max-w-[1400px] w-full mx-auto gs-reveal">
-                        <span class="text-[11px] uppercase tracking-[0.4em] text-[#C49A6C] font-medium block mb-8">Selected Archives</span>
-                        <h2 class="text-7xl md:text-9xl font-editorial text-[#F3EFEA] max-w-4xl leading-[0.85]">
-                            Living <br><span class="italic text-[#F3EFEA]/40">Sculptures.</span>
-                        </h2>
-                        <div class="mt-16 flex items-center gap-6">
-                            <div class="w-20 h-[1px] bg-[#C49A6C]"></div>
-                            <span class="text-[#F3EFEA]/60 text-[10px] tracking-[0.3em] uppercase font-bold">Scroll Horizontally</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- COMMISSION SECTION -->
+    <section
+      id="booking"
+      class="py-32 md:py-48 px-6 md:px-12 bg-[#050404] relative z-10"
+    >
+      <div class="max-w-4xl mx-auto text-center gs-reveal">
+        <h2
+          class="text-5xl md:text-7xl lg:text-9xl font-editorial font-light mb-10 text-[#F9F6F0] leading-[1] md:leading-[0.9]"
+        >
+          Commission <br class="hidden md:block" /><span
+            class="italic text-[#D4AF37]"
+            >Jèniva.</span
+          >
+        </h2>
+        <p
+          class="text-[#F9F6F0]/50 mb-20 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-lg leading-relaxed"
+        >
+          We execute a strictly limited number of commissions per fiscal year.
+          Provide your coordinates to begin the dialogue.
+        </p>
 
-                <!-- Panel 2 -->
-                <div class="panel w-screen flex-shrink-0">
-                    <div class="w-full max-w-[1400px] h-[75vh] flex flex-col md:flex-row gap-16 items-center">
-                        <div class="w-full md:w-7/12 h-full overflow-hidden rounded-sm clip-reveal gs-horizontal relative interactive-target">
-                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80" class="w-full h-full object-cover hover:scale-105 transition duration-[2s]" />
-                        </div>
-                        <div class="w-full md:w-5/12">
-                            <p class="text-[10px] tracking-[0.3em] uppercase text-[#C49A6C] mb-6 font-bold">2026 / Jubilee Hills</p>
-                            <h3 class="text-5xl md:text-6xl font-editorial mb-8 text-[#F3EFEA] leading-tight">The Obsidian <br>Residence</h3>
-                            <p class="text-[#F3EFEA]/70 font-light mb-12 text-lg leading-relaxed">A masterclass in shadow play, integrating blackened timber with raw, poured concrete to create profound architectural depth.</p>
-                            <a href="#" class="text-[11px] uppercase tracking-[0.3em] font-bold text-[#F3EFEA] hover-line interactive-target hover-text-bronze">Explore Project</a>
-                        </div>
-                    </div>
-                </div>
+        <form class="space-y-14 md:space-y-20 text-left">
+          <div
+            class="border-b border-[#F9F6F0]/20 py-4 md:py-6 relative input-group interactive-target"
+          >
+            <input
+              type="text"
+              placeholder="Name / Designation"
+              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F9F6F0]/20 text-[#F9F6F0]"
+            />
+            <div
+              class="input-line absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] transition-all duration-700"
+            ></div>
+            <!-- Custom CSS handles width on focus/hover -->
+            <style>
+              .input-group:hover .input-line,
+              .input-group input:focus + .input-line {
+                width: 100%;
+              }
+            </style>
+          </div>
 
-                <!-- Panel 3 -->
-                <div class="panel w-screen flex-shrink-0">
-                    <div class="w-full max-w-[1400px] h-[75vh] flex flex-col md:flex-row gap-16 items-center flex-row-reverse">
-                        <div class="w-full md:w-7/12 h-full overflow-hidden rounded-sm clip-reveal gs-horizontal relative interactive-target">
-                            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80" class="w-full h-full object-cover hover:scale-105 transition duration-[2s]" />
-                        </div>
-                        <div class="w-full md:w-5/12 text-left md:text-right">
-                            <p class="text-[10px] tracking-[0.3em] uppercase text-[#C49A6C] mb-6 font-bold">2025 / Banjara Hills</p>
-                            <h3 class="text-5xl md:text-6xl font-editorial mb-8 text-[#F3EFEA] leading-tight">Acoustic <br>Minimalism</h3>
-                            <p class="text-[#F3EFEA]/70 font-light mb-12 text-lg leading-relaxed md:ml-auto">A hyper-sensory environment engineered for perfect silence, wrapped entirely in seamless Venetian plaster.</p>
-                            <a href="#" class="text-[11px] uppercase tracking-[0.3em] font-bold text-[#F3EFEA] hover-line interactive-target hover-text-bronze">Explore Project</a>
-                        </div>
-                    </div>
-                </div>
+          <div
+            class="border-b border-[#F9F6F0]/20 py-4 md:py-6 relative input-group interactive-target"
+          >
+            <input
+              type="email"
+              placeholder="Direct Email"
+              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F9F6F0]/20 text-[#F9F6F0]"
+            />
+            <div
+              class="input-line absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] transition-all duration-700"
+            ></div>
+          </div>
+
+          <div class="mt-20 md:mt-28 w-full flex justify-center">
+            <div class="magnetic-wrap">
+              <button
+                class="interactive-target magnetic-btn bg-transparent border border-[#D4AF37] text-[#D4AF37] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[11px] hover:bg-[#D4AF37] hover:text-[#050404] transition-all duration-700 font-bold"
+              >
+                Transmit Request
+              </button>
             </div>
-        </div>
-    </section>
-
-    <!-- BOOKING SECTION (High Contrast Form) -->
-    <section id="booking" class="py-40 px-8 bg-[#070707] relative z-10">
-        <div class="max-w-3xl mx-auto text-center gs-reveal">
-            <h2 class="text-6xl md:text-8xl font-editorial mb-8 text-[#F3EFEA] leading-[0.9]">Commission <br><span class="italic text-[#C49A6C]">Us.</span></h2>
-            <p class="text-[#F3EFEA]/60 mb-20 font-light max-w-md mx-auto text-lg">We take on a strictly limited number of commissions per year. Begin the dialogue below.</p>
-
-            <form class="space-y-16 text-left">
-                <div class="border-b border-[#F3EFEA]/30 py-4 relative group">
-                    <input type="text" placeholder="Your Name" class="w-full bg-transparent outline-none text-3xl font-editorial font-light placeholder-[#F3EFEA]/30 text-[#F3EFEA] interactive-target"/>
-                    <div class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C49A6C] transition-all duration-700 group-hover:w-full"></div>
-                </div>
-                <div class="border-b border-[#F3EFEA]/30 py-4 relative group">
-                    <input type="email" placeholder="Your Email" class="w-full bg-transparent outline-none text-3xl font-editorial font-light placeholder-[#F3EFEA]/30 text-[#F3EFEA] interactive-target"/>
-                    <div class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C49A6C] transition-all duration-700 group-hover:w-full"></div>
-                </div>
-                
-                <div class="magnetic-wrap mt-16 w-full flex justify-center">
-                    <button class="interactive-target magnetic-btn bg-[#C49A6C] text-[#070707] px-24 py-6 rounded-full uppercase tracking-[0.3em] text-[11px] hover:bg-[#F3EFEA] transition-colors duration-500 font-bold">
-                        Request Consultation
-                    </button>
-                </div>
-            </form>
-        </div>
+          </div>
+        </form>
+      </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-24 px-8 border-t border-[#F3EFEA]/10 bg-[#070707] relative z-10">
-        <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-16">
-            
-            <div>
-                <div class="text-3xl tracking-[0.4em] uppercase font-light text-[#F3EFEA] mb-6">
-                    JÈNIVA <span class="text-[#C49A6C] italic font-editorial text-4xl lowercase">.</span>
-                </div>
-                <p class="text-sm text-[#F3EFEA]/50 max-w-xs font-light leading-relaxed">
-                    Engineering psychological comfort through rigorous material selection and shadow.
-                </p>
-            </div>
-
-            <div class="flex gap-16 md:gap-32 text-[10px] tracking-[0.3em] uppercase font-bold">
-                <ul class="space-y-6 text-[#F3EFEA]">
-                    <li class="text-[#C49A6C] mb-8">Social</li>
-                    <li><a href="#" class="hover-text-bronze transition-colors interactive-target">Instagram</a></li>
-                    <li><a href="#" class="hover-text-bronze transition-colors interactive-target">Pinterest</a></li>
-                </ul>
-                <ul class="space-y-6 text-[#F3EFEA]">
-                    <li class="text-[#C49A6C] mb-8">Studio</li>
-                    <li>Jubilee Hills</li>
-                    <li>Hyderabad, India</li>
-                </ul>
-            </div>
+    <footer
+      class="py-20 md:py-32 px-8 md:px-14 border-t border-[#F9F6F0]/10 bg-[#050404] relative z-10"
+    >
+      <div
+        class="max-w-[1600px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-16 lg:gap-24"
+      >
+        <div class="w-full lg:w-auto">
+          <div
+            class="text-3xl md:text-4xl tracking-[0.5em] uppercase font-light text-[#F9F6F0] mb-6 md:mb-8"
+          >
+            SYNTELO
+            <span
+              class="text-[#D4AF37] italic font-editorial text-4xl md:text-5xl lowercase"
+              >.</span
+            >
+          </div>
+          <p
+            class="text-xs md:text-sm text-[#F9F6F0]/40 max-w-sm font-light leading-relaxed"
+          >
+            Operated & <br />Engineering psychological comfort through rigid
+            materiality and light.
+          </p>
         </div>
+
+        <div
+          class="flex flex-col md:flex-row gap-12 md:gap-32 text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-bold w-full lg:w-auto"
+        >
+          <ul class="space-y-6 text-[#F9F6F0]">
+            <li
+              class="text-[#D4AF37] mb-8 font-editorial italic text-xl md:text-2xl lowercase font-light"
+            >
+              Network
+            </li>
+            <li>
+              <a
+                href="#"
+                class="hover:text-[#D4AF37] transition-colors interactive-target"
+                >Instagram</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="hover:text-[#D4AF37] transition-colors interactive-target"
+                >Behance</a
+              >
+            </li>
+          </ul>
+          <ul class="space-y-6 text-[#F9F6F0]">
+            <li
+              class="text-[#D4AF37] mb-8 font-editorial italic text-xl md:text-2xl lowercase font-light"
+            >
+              HQ
+            </li>
+            <li>Jubilee Hills</li>
+            <li>Hyderabad, IND</li>
+          </ul>
+        </div>
+      </div>
     </footer>
 
-    <!-- INTERACTIVE SCRIPTS -->
+    <!-- SCRIPTS -->
     <script>
-        gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger);
 
-        // --- 1. CUSTOM LUXURY CURSOR FOLLOW ---
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorRing = document.getElementById('cursor-ring');
-        const mouseLight = document.getElementById('mouse-light');
-        const heroImg = document.getElementById('hero-img');
-        
-        // Fast dot, smooth ring
-        let xToDot = gsap.quickTo(cursorDot, "x", {duration: 0.1, ease: "power3"});
-        let yToDot = gsap.quickTo(cursorDot, "y", {duration: 0.1, ease: "power3"});
-        let xToRing = gsap.quickTo(cursorRing, "x", {duration: 0.4, ease: "power3"}); 
-        let yToRing = gsap.quickTo(cursorRing, "y", {duration: 0.4, ease: "power3"});
+      // --- 1. PRELOADER LOGIC ---
+      const preloader = document.getElementById("preloader");
+      const loadingPercent = document.getElementById("loading-percent");
+      const loadingText = document.querySelector(".loading-text");
+      const mainNav = document.getElementById("main-nav");
 
-        window.addEventListener("mousemove", (e) => {
-            // Move Cursor
-            xToDot(e.clientX); yToDot(e.clientY);
-            xToRing(e.clientX); yToRing(e.clientY);
+      let progress = 0;
 
-            // Move Ambient Background Light
-            gsap.to(mouseLight, {
-                x: e.clientX, y: e.clientY, duration: 2, ease: "power2.out"
-            });
+      gsap.to(loadingText, { opacity: 1, duration: 1.5, ease: "power2.out" });
 
-            // Parallax Hero Image shifting (Animations along the screen)
-            if(heroImg) {
-                const xShift = (e.clientX / window.innerWidth - 0.5) * 30; // 30px movement
-                const yShift = (e.clientY / window.innerHeight - 0.5) * 30;
-                gsap.to(heroImg, {
-                    x: xShift, y: yShift, duration: 1.5, ease: "power2.out"
-                });
-            }
+      const progressInterval = setInterval(() => {
+        progress += Math.floor(Math.random() * 5) + 2;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(progressInterval);
+
+          gsap.to(preloader, {
+            opacity: 0,
+            duration: 1.5,
+            ease: "power2.inOut",
+            delay: 0.8,
+            onComplete: () => {
+              preloader.style.display = "none";
+              document.body.classList.remove("loading-active");
+              initSiteAnimations();
+            },
+          });
+        }
+        loadingPercent.innerText =
+          progress < 10
+            ? `00${progress}`
+            : progress < 100
+            ? `0${progress}`
+            : progress;
+      }, 60);
+
+      function initSiteAnimations() {
+        gsap.to(mainNav, { autoAlpha: 1, duration: 1.5 });
+        gsap.fromTo(
+          ".gs-reveal-hero",
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out" }
+        );
+        document.querySelectorAll(".clip-reveal").forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            el.classList.add("is-visible");
+          }
+        });
+      }
+
+      // --- 2. LUXURY DOT & RING CURSOR LOGIC ---
+      const cursorDot = document.getElementById("cursor-dot");
+      const cursorRing = document.getElementById("cursor-ring");
+      const mouseLight = document.getElementById("mouse-light");
+
+      let xToDot = gsap.quickTo(cursorDot, "x", {
+        duration: 0.05,
+        ease: "power3",
+      });
+      let yToDot = gsap.quickTo(cursorDot, "y", {
+        duration: 0.05,
+        ease: "power3",
+      });
+      let xToRing = gsap.quickTo(cursorRing, "x", {
+        duration: 0.4,
+        ease: "power3",
+      });
+      let yToRing = gsap.quickTo(cursorRing, "y", {
+        duration: 0.4,
+        ease: "power3",
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (window.matchMedia("(pointer: fine)").matches) {
+          xToDot(e.clientX);
+          yToDot(e.clientY);
+          xToRing(e.clientX);
+          yToRing(e.clientY);
+
+          gsap.to(mouseLight, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 1.5,
+            ease: "power2.out",
+          });
+        }
+      });
+
+      document
+        .querySelectorAll(".interactive-target, a, button, input")
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () =>
+            document.body.classList.add("hover-active")
+          );
+          el.addEventListener("mouseleave", () =>
+            document.body.classList.remove("hover-active")
+          );
         });
 
-        // Hover States Class Toggle
-        document.querySelectorAll('.interactive-target, a, button, input').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('hover-active'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hover-active'));
+      // --- 3. THE "WOW FACTOR" KINETIC IMAGE TRAIL ---
+      const heroCanvas = document.getElementById("hero-canvas");
+
+      // Array of ultra-luxury interior images
+      const images = [
+        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800",
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800",
+        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800",
+        "https://images.unsplash.com/photo-1556912172-45b7ee88c442?w=800",
+        "https://images.unsplash.com/photo-1592477976530-fa609139886c?w=800",
+      ];
+
+      let globalIndex = 0;
+      let lastObj = { x: 0, y: 0 };
+      const distanceThreshold = 180; // Slower spawn rate for elegance
+
+      heroCanvas.addEventListener("mousemove", (e) => {
+        const distance = Math.hypot(
+          e.clientX - lastObj.x,
+          e.clientY - lastObj.y
+        );
+
+        if (distance > distanceThreshold) {
+          lastObj.x = e.clientX;
+          lastObj.y = e.clientY;
+
+          const img = document.createElement("img");
+          img.src = images[globalIndex % images.length];
+          img.classList.add("trail-img");
+
+          const rotation = Math.random() * 16 - 8;
+
+          gsap.set(img, {
+            left: e.clientX,
+            top: e.clientY,
+            rotation: rotation,
+          });
+
+          heroCanvas.appendChild(img);
+
+          // Luxurious cinematic fade and blur reveal
+          gsap
+            .timeline({
+              onComplete: () => {
+                img.remove();
+              },
+            })
+            .to(img, {
+              opacity: 1,
+              scale: 1,
+              filter: "blur(0px) brightness(1)",
+              duration: 0.6,
+              ease: "power2.out",
+            })
+            .to(
+              img,
+              {
+                opacity: 0,
+                scale: 0.85,
+                y: "+=80",
+                filter: "blur(10px) brightness(0.5)",
+                duration: 1.2,
+                ease: "power2.inOut",
+              },
+              "+=0.4"
+            );
+
+          globalIndex++;
+        }
+      });
+
+      // --- 4. MAGNETIC BUTTONS ---
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        document.querySelectorAll(".magnetic-wrap").forEach((wrap) => {
+          const btn = wrap.querySelector(".magnetic-btn");
+          wrap.addEventListener("mousemove", (e) => {
+            const position = wrap.getBoundingClientRect();
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+            btn.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
+          });
+          wrap.addEventListener("mouseleave", () => {
+            btn.style.transform = `translate(0px, 0px)`;
+          });
         });
+      }
 
+      // --- 5. SCROLL REVEALS ---
+      gsap.utils.toArray(".gs-reveal").forEach(function (elem) {
+        gsap.fromTo(
+          elem,
+          { y: 50, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: elem,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
 
-        // --- 2. MAGNETIC BUTTONS ---
-        document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
-            const btn = wrap.querySelector('.magnetic-btn');
-            wrap.addEventListener('mousemove', (e) => {
-                const position = btn.getBoundingClientRect();
-                const x = e.pageX - position.left - position.width / 2;
-                const y = e.pageY - position.top - position.height / 2;
-                btn.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
-            });
-            wrap.addEventListener('mouseleave', () => {
-                btn.style.transform = `translate(0px, 0px)`;
-            });
-        });
-
-
-        // --- 3. SCROLL REVEALS ---
-        setTimeout(() => {
-            document.querySelectorAll('.clip-reveal').forEach(el => el.classList.add('is-visible'));
-        }, 300);
-
-        gsap.utils.toArray(".gs-reveal").forEach(function (elem) {
-            gsap.fromTo(elem, { y: 60, autoAlpha: 0 }, {
-                y: 0, autoAlpha: 1, duration: 1.5, ease: "power3.out",
-                scrollTrigger: { trigger: elem, start: "top 85%", toggleActions: "play none none reverse" }
-            });
-        });
-
-        // --- 4. HORIZONTAL SCROLL GALLERY ---
-        const scrollWrapper = document.querySelector(".horizontal-scroll-wrapper");
+      // --- 6. HORIZONTAL SCROLL GALLERY ---
+      let mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px)", () => {
+        const scrollWrapper = document.querySelector(
+          ".horizontal-scroll-wrapper"
+        );
         const slider = document.querySelector(".horizontal-slider");
         const panels = gsap.utils.toArray(".panel");
 
         let horizontalTween = gsap.to(panels, {
-            xPercent: -100 * (panels.length - 1), ease: "none",
-            scrollTrigger: {
-                trigger: scrollWrapper, pin: true, scrub: 1,
-                end: () => "+=" + slider.offsetWidth
-            }
+          xPercent: -100 * (panels.length - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: scrollWrapper,
+            pin: true,
+            scrub: 1.5, // Smoother scrub
+            end: () => "+=" + slider.offsetWidth,
+          },
         });
 
-        gsap.utils.toArray(".gs-horizontal").forEach(elem => {
-            ScrollTrigger.create({
-                trigger: elem, containerAnimation: horizontalTween,
-                start: "left 75%",
-                onEnter: () => elem.classList.add("is-visible"),
-                onLeaveBack: () => elem.classList.remove("is-visible")
-            });
+        gsap.utils.toArray(".gs-horizontal").forEach((elem) => {
+          ScrollTrigger.create({
+            trigger: elem,
+            containerAnimation: horizontalTween,
+            start: "left 75%",
+            onEnter: () => elem.classList.add("is-visible"),
+            onLeaveBack: () => elem.classList.remove("is-visible"),
+          });
         });
+      });
+
+      mm.add("(max-width: 1023px)", () => {
+        gsap.utils.toArray(".gs-horizontal").forEach((elem) => {
+          ScrollTrigger.create({
+            trigger: elem,
+            start: "top 85%",
+            onEnter: () => elem.classList.add("is-visible"),
+          });
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
