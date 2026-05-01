@@ -12,13 +12,12 @@
 
     <!-- Ultra-Luxury Typography -->
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,500;1,6..96,300;1,6..96,400&family=Manrope:wght@200;300;400;500;600&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Manrope:wght@200;300;400;500;600&display=swap");
 
       :root {
-        --bg-obsidian: #050404; /* Slightly warmer deep black */
-        --text-pearl: #f9f6f0; /* Soft cashmere white */
-        --accent-gold: #d4af37; /* True Champagne Gold */
-        --gold-glow: rgba(212, 175, 55, 0.05);
+        --bg-obsidian: #050505;
+        --text-pearl: #f3efea;
+        --accent-gold: #c49a6c;
       }
 
       body {
@@ -29,7 +28,6 @@
         cursor: none;
         margin: 0;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
       }
 
       body.loading-active {
@@ -40,11 +38,11 @@
         font-family: "Bodoni Moda", serif;
       }
 
-      /* --- 1. PREMIUM GLASS CURSOR --- */
+      /* --- 1. X-RAY INVERSION CURSOR --- */
       #cursor-dot {
-        width: 4px;
-        height: 4px;
-        background-color: var(--accent-gold);
+        width: 12px;
+        height: 12px;
+        background-color: #fff;
         border-radius: 50%;
         position: fixed;
         top: 0;
@@ -52,69 +50,15 @@
         pointer-events: none;
         z-index: 10000;
         transform: translate(-50%, -50%);
-        transition: opacity 0.3s ease;
-      }
-      #cursor-ring {
-        width: 36px;
-        height: 36px;
-        border: 1px solid rgba(212, 175, 55, 0.4);
-        border-radius: 50%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-          height 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease,
-          border-color 0.4s ease;
-      }
-
-      body.hover-active #cursor-ring {
-        width: 70px;
-        height: 70px;
-        background-color: rgba(212, 175, 55, 0.08);
-        backdrop-filter: blur(4px);
-        border-color: var(--accent-gold);
+        mix-blend-mode: difference; /* Inverts colors of everything beneath it */
+        transition: width 0.3s, height 0.3s;
       }
       body.hover-active #cursor-dot {
-        opacity: 0;
+        width: 80px;
+        height: 80px;
       }
 
-      /* --- 2. ATMOSPHERIC LIGHTING & NOISE --- */
-      .ambient-light {
-        position: fixed;
-        width: 70vw;
-        height: 70vw;
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        background: radial-gradient(
-          circle,
-          var(--gold-glow) 0%,
-          rgba(5, 4, 4, 0) 60%
-        );
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-        z-index: 0;
-      }
-      .noise {
-        position: fixed;
-        inset: 0;
-        z-index: 50;
-        pointer-events: none;
-        opacity: 0.03;
-        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      }
-      .vignette {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 40;
-        background: radial-gradient(circle, transparent 40%, #050404 130%);
-      }
-
-      /* --- 3. KINETIC IMAGE TRAIL (UPGRADED) --- */
+      /* --- 2. KINETIC IMAGE TRAIL (THE WOW FACTOR) --- */
       #hero-canvas {
         position: absolute;
         inset: 0;
@@ -124,20 +68,19 @@
       }
       .trail-img {
         position: absolute;
-        width: 320px;
-        height: 420px;
+        width: 350px;
+        height: 450px;
         object-fit: cover;
-        border-radius: 2px; /* Sharper edges feel more high-end */
-        transform: translate(-50%, -50%) scale(0.8);
+        border-radius: 4px;
+        transform: translate(-50%, -50%) scale(0.5);
         opacity: 0;
         pointer-events: none;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-        filter: blur(10px) brightness(0.8); /* Cinematic fade-in */
-        will-change: transform, opacity, filter;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        will-change: transform, opacity;
         z-index: 2;
       }
 
-      /* --- 4. CINEMATIC PRELOADER --- */
+      /* --- 3. CINEMATIC PRELOADER --- */
       #preloader {
         position: fixed;
         inset: 0;
@@ -150,24 +93,40 @@
       }
       .loading-text {
         font-family: "Bodoni Moda", serif;
-        font-size: 2.5rem;
-        font-weight: 300;
-        letter-spacing: 0.1em;
+        font-size: 2rem;
+        font-style: italic;
         color: var(--accent-gold);
         opacity: 0;
       }
       #loading-percent {
         margin-top: 20px;
-        font-size: 11px;
-        letter-spacing: 0.5em;
-        color: rgba(249, 246, 240, 0.5);
+        font-size: 12px;
+        letter-spacing: 0.4em;
+        color: var(--text-pearl);
         font-family: "Manrope", sans-serif;
       }
 
-      /* --- 5. MICRO-INTERACTIONS & REVEALS --- */
+      /* --- 4. NOISE & LIGHTING --- */
+      .noise {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        pointer-events: none;
+        opacity: 0.04;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+      .vignette {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 40;
+        background: radial-gradient(circle, transparent 40%, #050505 120%);
+      }
+
+      /* --- 5. MICRO-INTERACTIONS --- */
       .hover-line {
         position: relative;
-        padding-bottom: 6px;
+        padding-bottom: 4px;
         display: inline-block;
       }
       .hover-line::after {
@@ -178,7 +137,7 @@
         bottom: 0;
         left: 0;
         background-color: var(--accent-gold);
-        transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       }
       .hover-line:hover::after {
         width: 100%;
@@ -186,7 +145,7 @@
 
       .clip-reveal {
         clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-        transition: clip-path 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+        transition: clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1);
       }
       .clip-reveal.is-visible {
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -195,15 +154,15 @@
       /* The Magnetic Button */
       .magnetic-wrap {
         display: inline-block;
-        padding: 30px;
-        margin: -30px;
+        padding: 20px;
+        margin: -20px;
       }
       .magnetic-btn {
         display: inline-block;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
 
-      /* --- 6. HORIZONTAL SCROLL OVERRIDES --- */
+      /* Horizontal Scroll Overrides */
       .horizontal-scroll-wrapper {
         width: 100%;
         overflow: hidden;
@@ -216,7 +175,7 @@
       .panel {
         width: 100%;
         min-height: auto;
-        padding: 6rem 2rem;
+        padding: 4rem 2rem;
         position: relative;
         z-index: 10;
         display: flex;
@@ -233,79 +192,64 @@
         .panel {
           width: 100vw;
           height: 100vh;
-          padding: 0 6vw;
+          padding: 0 5vw;
         }
       }
 
       /* Giant Hero Text */
       .hero-title {
-        font-size: 16vw;
+        font-size: 15vw;
         line-height: 0.8;
-        letter-spacing: -0.03em;
+        letter-spacing: -0.02em;
         color: transparent;
-        -webkit-text-stroke: 1px rgba(212, 175, 55, 0.15); /* Faint gold stroke */
+        -webkit-text-stroke: 1px rgba(243, 239, 234, 0.2);
         position: relative;
         z-index: 10;
         pointer-events: none;
-      }
-
-      /* Input Underline Glow */
-      .input-group input:focus + .input-line {
-        background-color: var(--accent-gold);
-        box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        mix-blend-mode: exclusion;
       }
     </style>
   </head>
-  <body class="selection:bg-[#D4AF37] selection:text-[#050404] loading-active">
+  <body class="selection:bg-[#C49A6C] selection:text-[#050505] loading-active">
     <!-- PRELOADER -->
     <div id="preloader">
-      <div class="loading-text">JÈNIVA</div>
+      <div class="loading-text">Jèniva.</div>
       <div id="loading-percent">000</div>
     </div>
 
     <!-- UI FX -->
     <div class="noise"></div>
     <div class="vignette"></div>
-    <div class="ambient-light" id="mouse-light"></div>
-
-    <!-- LUXURY CURSOR -->
     <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
 
     <!-- NAVIGATION -->
     <nav
-      class="fixed w-full z-40 px-8 md:px-14 py-8 opacity-0 invisible mix-blend-difference"
+      class="fixed w-full z-40 px-6 md:px-12 py-8 mix-blend-difference opacity-0 invisible"
       id="main-nav"
     >
       <div
-        class="max-w-[1600px] mx-auto flex justify-between items-center text-[#F9F6F0]"
+        class="max-w-[1600px] mx-auto flex justify-between items-center text-[#F3EFEA]"
       >
         <div
-          class="text-xl md:text-2xl tracking-[0.5em] uppercase font-light interactive-target"
+          class="text-xl md:text-2xl tracking-[0.4em] uppercase font-light interactive-target"
         >
           JÈNIVA
           <span
-            class="text-[#D4AF37] italic font-editorial text-2xl md:text-3xl lowercase"
+            class="text-[#C49A6C] italic font-editorial text-2xl md:text-3xl lowercase"
             >.</span
           >
         </div>
 
         <div
-          class="hidden lg:flex gap-16 text-[10px] tracking-[0.4em] uppercase font-semibold"
+          class="hidden lg:flex gap-16 text-[10px] tracking-[0.3em] uppercase font-bold"
         >
-          <a
-            href="#services"
-            class="hover-line interactive-target transition-colors hover:text-[#D4AF37]"
-            >Atelier</a
-          >
-          <a
-            href="#gallery"
-            class="hover-line interactive-target transition-colors hover:text-[#D4AF37]"
+          <a href="#services" class="hover-line interactive-target">Atelier</a>
+          <a href="#gallery" class="hover-line interactive-target"
             >Exhibition</a
           >
           <a
             href="#booking"
-            class="hover-line interactive-target text-[#D4AF37]"
+            class="hover-line interactive-target text-[#C49A6C]"
             >Commission</a
           >
         </div>
@@ -315,7 +259,7 @@
     <!-- THE KINETIC IMAGE TRAIL HERO -->
     <section
       id="home"
-      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#050404] interactive-target-area"
+      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#050505] interactive-target-area"
     >
       <!-- Images spawn here when mouse moves -->
       <div id="hero-canvas"></div>
@@ -326,28 +270,25 @@
       >
         <h1 class="hero-title font-editorial">JÈNIVA</h1>
         <p
-          class="text-[10px] md:text-xs tracking-[0.8em] uppercase mt-10 text-[#D4AF37] font-semibold text-center w-full"
+          class="text-[10px] md:text-xs tracking-[0.6em] uppercase mt-8 text-[#C49A6C] font-semibold text-center w-full"
         >
-          Experiential Spatial Design
+          Interactive Spatial Design & VR Prototyping
         </p>
       </div>
 
       <!-- Scroll Indicator -->
       <div
-        class="absolute bottom-12 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.5em] uppercase text-[#F9F6F0]/40 flex flex-col items-center gap-6 z-20 gs-reveal-hero"
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.4em] uppercase text-[#F3EFEA]/40 flex flex-col items-center gap-4 z-20 gs-reveal-hero"
       >
         <span>Scroll</span>
-        <div class="w-[1px] h-16 bg-[#F9F6F0]/10 overflow-hidden relative">
+        <div class="w-[1px] h-12 bg-[#F3EFEA]/20 overflow-hidden relative">
           <div
-            class="w-full h-full bg-[#D4AF37] absolute top-[-100%] animate-[scrollDown_2.5s_infinite_cubic-bezier(0.77,0,0.175,1)]"
+            class="w-full h-full bg-[#C49A6C] absolute top-[-100%] animate-[scrollDown_2s_infinite]"
           ></div>
         </div>
       </div>
       <style>
         @keyframes scrollDown {
-          0% {
-            top: -100%;
-          }
           100% {
             top: 100%;
           }
@@ -358,98 +299,90 @@
     <!-- SERVICES (Ultra-Clean Split View) -->
     <section
       id="services"
-      class="py-32 md:py-48 px-8 md:px-14 bg-[#050404] relative z-10 border-t border-[#F9F6F0]/5"
+      class="py-32 md:py-48 px-6 md:px-12 bg-[#050505] relative z-10"
     >
       <div class="max-w-[1400px] mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
-          <div class="lg:col-span-5 sticky top-48 gs-reveal">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          <div class="lg:col-span-5 sticky top-40 gs-reveal">
             <span
-              class="text-[10px] tracking-[0.5em] uppercase text-[#D4AF37] font-semibold block mb-8"
+              class="text-[10px] tracking-[0.4em] uppercase text-[#C49A6C] font-bold block mb-8"
+              >01 / The Atelier</span
             >
-              01 / The Atelier
-            </span>
             <h2
-              class="text-5xl md:text-7xl font-editorial text-[#F9F6F0] font-light mb-10 leading-[1.1]"
+              class="text-5xl md:text-7xl font-editorial text-[#F3EFEA] mb-8 leading-[1.1]"
             >
-              Rigorous <br /><span class="italic text-[#D4AF37]"
+              Rigorous <br /><span class="italic text-[#F3EFEA]/50"
                 >Materiality.</span
               >
             </h2>
             <p
-              class="text-[#F9F6F0]/50 font-light text-sm md:text-base leading-loose max-w-sm mb-16"
+              class="text-[#F3EFEA]/60 font-light text-sm md:text-base leading-relaxed max-w-sm mb-12"
             >
               We strip away the unnecessary, utilizing raw stone, blackened
-              timber, and light to curate profound psychological environments of
-              absolute luxury.
+              timber, and light to curate profound psychological environments.
             </p>
             <div class="magnetic-wrap">
               <a
                 href="#booking"
-                class="magnetic-btn interactive-target text-[10px] tracking-[0.4em] uppercase border border-[#D4AF37] text-[#D4AF37] px-10 py-5 rounded-full hover:bg-[#D4AF37] hover:text-[#050404] transition-all duration-700 font-bold"
+                class="magnetic-btn interactive-target text-[10px] tracking-[0.3em] uppercase border border-[#C49A6C] text-[#C49A6C] px-8 py-4 rounded-full hover:bg-[#C49A6C] hover:text-[#050505] transition-all duration-500 font-bold"
               >
                 Initiate Dialogue
               </a>
             </div>
           </div>
 
-          <div class="lg:col-span-7 space-y-32 mt-16 lg:mt-0">
+          <div class="lg:col-span-7 space-y-24 mt-16 lg:mt-0">
             <div class="gs-reveal group interactive-target">
-              <div class="overflow-hidden rounded-sm mb-10 relative">
+              <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&q=80"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-5xl font-editorial text-[#F9F6F0] font-light mb-6 group-hover:text-[#D4AF37] group-hover:italic transition-colors duration-500"
+                class="text-3xl md:text-4xl font-editorial text-[#F3EFEA] mb-4 group-hover:text-[#C49A6C] group-hover:italic transition-colors"
               >
                 Sensory Deprivation
               </h3>
-              <p
-                class="text-sm text-[#F9F6F0]/40 font-light max-w-md leading-relaxed"
-              >
-                Master suites engineered for total acoustic isolation, utilizing
-                heavy velvet draping and absolute darkness control.
+              <p class="text-sm text-[#F3EFEA]/50 font-light max-w-md">
+                Master suites engineered for total acoustic isolation and
+                absolute darkness.
               </p>
             </div>
 
             <div class="gs-reveal group interactive-target">
-              <div class="overflow-hidden rounded-sm mb-10 relative">
+              <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-5xl font-editorial text-[#F9F6F0] font-light mb-6 group-hover:text-[#D4AF37] group-hover:italic transition-colors duration-500"
+                class="text-3xl md:text-4xl font-editorial text-[#F3EFEA] mb-4 group-hover:text-[#C49A6C] group-hover:italic transition-colors"
               >
                 Living Sculptures
               </h3>
-              <p
-                class="text-sm text-[#F9F6F0]/40 font-light max-w-md leading-relaxed"
-              >
-                Open volumes that flow effortlessly, using natural and
-                artificial light as a primary, tactile building material.
+              <p class="text-sm text-[#F3EFEA]/50 font-light max-w-md">
+                Open volumes that flow effortlessly, using light as a primary
+                building material.
               </p>
             </div>
 
             <div class="gs-reveal group interactive-target">
-              <div class="overflow-hidden rounded-sm mb-10 relative">
+              <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://images.unsplash.com/photo-1592477976530-fa609139886c?auto=format&fit=crop&q=80"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] ease-out"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-5xl font-editorial text-[#F9F6F0] font-light mb-6 group-hover:text-[#D4AF37] group-hover:italic transition-colors duration-500"
+                class="text-3xl md:text-4xl font-editorial text-[#F3EFEA] mb-4 group-hover:text-[#C49A6C] group-hover:italic transition-colors"
               >
                 VR Prototyping
               </h3>
-              <p
-                class="text-sm text-[#F9F6F0]/40 font-light max-w-md leading-relaxed"
-              >
-                Walk through 1:1 scale hyper-realistic digital twins of your
-                property before a single wall is demolished.
+              <p class="text-sm text-[#F3EFEA]/50 font-light max-w-md">
+                Walk through 1:1 scale digital twins of your property before
+                demolition begins.
               </p>
             </div>
           </div>
@@ -460,21 +393,20 @@
     <!-- HORIZONTAL GALLERY (The Archives) -->
     <section
       id="gallery"
-      class="bg-[#030303] overflow-hidden border-y border-[#F9F6F0]/5 relative z-10"
+      class="bg-[#030303] overflow-hidden border-y border-[#F3EFEA]/5 relative z-10"
     >
       <div class="horizontal-scroll-wrapper lg:h-screen flex items-center">
         <div class="horizontal-slider">
           <div class="panel">
             <div class="max-w-[1400px] w-full mx-auto gs-reveal">
               <span
-                class="text-[10px] md:text-[11px] uppercase tracking-[0.5em] text-[#D4AF37] font-semibold block mb-10"
+                class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#C49A6C] font-bold block mb-8"
+                >02 / The Archives</span
               >
-                02 / The Archives
-              </span>
               <h2
-                class="text-6xl md:text-8xl lg:text-[11rem] font-editorial text-[#F9F6F0] max-w-4xl leading-[1] lg:leading-[0.85] font-light"
+                class="text-6xl md:text-8xl lg:text-[10rem] font-editorial text-[#F3EFEA] max-w-4xl leading-[1] lg:leading-[0.85]"
               >
-                Exhibition <br /><span class="italic text-[#F9F6F0]/30"
+                Exhibition <br /><span class="italic text-[#F3EFEA]/30"
                   >Spaces.</span
                 >
               </h2>
@@ -483,30 +415,30 @@
 
           <div class="panel">
             <div
-              class="w-full max-w-[1400px] lg:h-[80vh] flex flex-col lg:flex-row gap-12 lg:gap-24 items-center"
+              class="w-full max-w-[1400px] lg:h-[80vh] flex flex-col lg:flex-row gap-10 lg:gap-20 items-center"
             >
               <div
                 class="w-full lg:w-7/12 h-[45vh] lg:h-full overflow-hidden rounded-sm clip-reveal gs-horizontal interactive-target group"
               >
                 <img
                   src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2.5s] ease-out opacity-80 group-hover:opacity-100"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2s] ease-out"
                 />
               </div>
               <div class="w-full lg:w-5/12">
                 <p
-                  class="text-[10px] tracking-[0.5em] uppercase text-[#D4AF37] mb-8 font-semibold"
+                  class="text-[10px] tracking-[0.4em] uppercase text-[#C49A6C] mb-6 font-bold"
                 >
                   Jubilee Hills
                 </p>
                 <h3
-                  class="text-4xl md:text-6xl lg:text-7xl font-editorial font-light mb-10 text-[#F9F6F0] leading-tight"
+                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F3EFEA] leading-tight"
                 >
                   The Onyx <br class="hidden lg:block" />Estate
                 </h3>
                 <a
                   href="#"
-                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F9F6F0] hover-line interactive-target hover:text-[#D4AF37] transition-colors"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F3EFEA] hover-line interactive-target hover:text-[#C49A6C] transition-colors"
                   >Explore Volume</a
                 >
               </div>
@@ -515,30 +447,30 @@
 
           <div class="panel">
             <div
-              class="w-full max-w-[1400px] lg:h-[80vh] flex flex-col lg:flex-row gap-12 lg:gap-24 items-center lg:flex-row-reverse"
+              class="w-full max-w-[1400px] lg:h-[80vh] flex flex-col lg:flex-row gap-10 lg:gap-20 items-center lg:flex-row-reverse"
             >
               <div
                 class="w-full lg:w-7/12 h-[45vh] lg:h-full overflow-hidden rounded-sm clip-reveal gs-horizontal interactive-target group"
               >
                 <img
                   src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2.5s] ease-out opacity-80 group-hover:opacity-100"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-all duration-[2s] ease-out"
                 />
               </div>
               <div class="w-full lg:w-5/12 text-left lg:text-right">
                 <p
-                  class="text-[10px] tracking-[0.5em] uppercase text-[#D4AF37] mb-8 font-semibold"
+                  class="text-[10px] tracking-[0.4em] uppercase text-[#C49A6C] mb-6 font-bold"
                 >
                   Banjara Hills
                 </p>
                 <h3
-                  class="text-4xl md:text-6xl lg:text-7xl font-editorial font-light mb-10 text-[#F9F6F0] leading-tight"
+                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F3EFEA] leading-tight"
                 >
                   Golden <br class="hidden lg:block" />Minimalism
                 </h3>
                 <a
                   href="#"
-                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F9F6F0] hover-line interactive-target hover:text-[#D4AF37] transition-colors"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F3EFEA] hover-line interactive-target hover:text-[#C49A6C] transition-colors"
                   >Explore Volume</a
                 >
               </div>
@@ -551,62 +483,50 @@
     <!-- COMMISSION SECTION -->
     <section
       id="booking"
-      class="py-32 md:py-48 px-6 md:px-12 bg-[#050404] relative z-10"
+      class="py-32 md:py-48 px-6 md:px-8 bg-[#050505] relative z-10"
     >
       <div class="max-w-4xl mx-auto text-center gs-reveal">
         <h2
-          class="text-5xl md:text-7xl lg:text-9xl font-editorial font-light mb-10 text-[#F9F6F0] leading-[1] md:leading-[0.9]"
+          class="text-5xl md:text-7xl lg:text-9xl font-editorial mb-8 text-[#F3EFEA] leading-[1] md:leading-[0.9]"
         >
           Commission <br class="hidden md:block" /><span
-            class="italic text-[#D4AF37]"
+            class="italic text-[#C49A6C]"
             >Jèniva.</span
           >
         </h2>
         <p
-          class="text-[#F9F6F0]/50 mb-20 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-lg leading-relaxed"
+          class="text-[#F3EFEA]/50 mb-16 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-xl"
         >
           We execute a strictly limited number of commissions per fiscal year.
-          Provide your coordinates to begin the dialogue.
+          Provide your coordinates below.
         </p>
 
-        <form class="space-y-14 md:space-y-20 text-left">
-          <div
-            class="border-b border-[#F9F6F0]/20 py-4 md:py-6 relative input-group interactive-target"
-          >
+        <form class="space-y-12 md:space-y-20 text-left">
+          <div class="border-b border-[#F3EFEA]/20 py-4 md:py-6 relative group">
             <input
               type="text"
               placeholder="Name / Designation"
-              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F9F6F0]/20 text-[#F9F6F0]"
+              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F3EFEA]/30 text-[#F3EFEA] interactive-target"
             />
             <div
-              class="input-line absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] transition-all duration-700"
+              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C49A6C] transition-all duration-700 group-hover:w-full"
             ></div>
-            <!-- Custom CSS handles width on focus/hover -->
-            <style>
-              .input-group:hover .input-line,
-              .input-group input:focus + .input-line {
-                width: 100%;
-              }
-            </style>
           </div>
-
-          <div
-            class="border-b border-[#F9F6F0]/20 py-4 md:py-6 relative input-group interactive-target"
-          >
+          <div class="border-b border-[#F3EFEA]/20 py-4 md:py-6 relative group">
             <input
               type="email"
               placeholder="Direct Email"
-              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F9F6F0]/20 text-[#F9F6F0]"
+              class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F3EFEA]/30 text-[#F3EFEA] interactive-target"
             />
             <div
-              class="input-line absolute bottom-0 left-0 w-0 h-[1px] bg-[#D4AF37] transition-all duration-700"
+              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C49A6C] transition-all duration-700 group-hover:w-full"
             ></div>
           </div>
 
-          <div class="mt-20 md:mt-28 w-full flex justify-center">
+          <div class="mt-16 md:mt-24 w-full flex justify-center">
             <div class="magnetic-wrap">
               <button
-                class="interactive-target magnetic-btn bg-transparent border border-[#D4AF37] text-[#D4AF37] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[11px] hover:bg-[#D4AF37] hover:text-[#050404] transition-all duration-700 font-bold"
+                class="interactive-target magnetic-btn bg-[#C49A6C] text-[#050505] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F3EFEA] transition-colors duration-500 font-bold"
               >
                 Transmit Request
               </button>
@@ -618,56 +538,56 @@
 
     <!-- FOOTER -->
     <footer
-      class="py-20 md:py-32 px-8 md:px-14 border-t border-[#F9F6F0]/10 bg-[#050404] relative z-10"
+      class="py-16 md:py-32 px-6 md:px-12 border-t border-[#F3EFEA]/10 bg-[#050505] relative z-10"
     >
       <div
-        class="max-w-[1600px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-16 lg:gap-24"
+        class="max-w-[1600px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-24"
       >
         <div class="w-full lg:w-auto">
           <div
-            class="text-3xl md:text-4xl tracking-[0.5em] uppercase font-light text-[#F9F6F0] mb-6 md:mb-8"
+            class="text-3xl md:text-4xl tracking-[0.4em] uppercase font-light text-[#F3EFEA] mb-4 md:mb-6"
           >
-            SYNTELO
+            JÈNIVA
             <span
-              class="text-[#D4AF37] italic font-editorial text-4xl md:text-5xl lowercase"
+              class="text-[#C49A6C] italic font-editorial text-4xl md:text-5xl lowercase"
               >.</span
             >
           </div>
           <p
-            class="text-xs md:text-sm text-[#F9F6F0]/40 max-w-sm font-light leading-relaxed"
+            class="text-xs md:text-base text-[#F3EFEA]/50 max-w-sm font-light leading-relaxed"
           >
-            Operated & <br />Engineering psychological comfort through rigid
-            materiality and light.
+            Operated by Phani Krishna Thirunagari. <br />Engineering
+            psychological comfort through rigid materiality.
           </p>
         </div>
 
         <div
-          class="flex flex-col md:flex-row gap-12 md:gap-32 text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-bold w-full lg:w-auto"
+          class="flex flex-col md:flex-row gap-10 md:gap-40 text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-bold w-full lg:w-auto"
         >
-          <ul class="space-y-6 text-[#F9F6F0]">
+          <ul class="space-y-6 text-[#F3EFEA]">
             <li
-              class="text-[#D4AF37] mb-8 font-editorial italic text-xl md:text-2xl lowercase font-light"
+              class="text-[#C49A6C] mb-8 font-editorial italic text-lg md:text-xl lowercase"
             >
               Network
             </li>
             <li>
               <a
                 href="#"
-                class="hover:text-[#D4AF37] transition-colors interactive-target"
+                class="hover:text-[#C49A6C] transition-colors interactive-target"
                 >Instagram</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="hover:text-[#D4AF37] transition-colors interactive-target"
+                class="hover:text-[#C49A6C] transition-colors interactive-target"
                 >Behance</a
               >
             </li>
           </ul>
-          <ul class="space-y-6 text-[#F9F6F0]">
+          <ul class="space-y-6 text-[#F3EFEA]">
             <li
-              class="text-[#D4AF37] mb-8 font-editorial italic text-xl md:text-2xl lowercase font-light"
+              class="text-[#C49A6C] mb-8 font-editorial italic text-lg md:text-xl lowercase"
             >
               HQ
             </li>
@@ -690,7 +610,7 @@
 
       let progress = 0;
 
-      gsap.to(loadingText, { opacity: 1, duration: 1.5, ease: "power2.out" });
+      gsap.to(loadingText, { opacity: 1, duration: 1, ease: "power2.out" });
 
       const progressInterval = setInterval(() => {
         progress += Math.floor(Math.random() * 5) + 2;
@@ -700,9 +620,9 @@
 
           gsap.to(preloader, {
             opacity: 0,
-            duration: 1.5,
+            duration: 1.2,
             ease: "power2.inOut",
-            delay: 0.8,
+            delay: 0.5,
             onComplete: () => {
               preloader.style.display = "none";
               document.body.classList.remove("loading-active");
@@ -716,14 +636,14 @@
             : progress < 100
             ? `0${progress}`
             : progress;
-      }, 60);
+      }, 50);
 
       function initSiteAnimations() {
-        gsap.to(mainNav, { autoAlpha: 1, duration: 1.5 });
+        gsap.to(mainNav, { autoAlpha: 1, duration: 1 });
         gsap.fromTo(
           ".gs-reveal-hero",
-          { y: 50, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out" }
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }
         );
         document.querySelectorAll(".clip-reveal").forEach((el) => {
           const rect = el.getBoundingClientRect();
@@ -733,25 +653,14 @@
         });
       }
 
-      // --- 2. LUXURY DOT & RING CURSOR LOGIC ---
+      // --- 2. X-RAY CURSOR LOGIC ---
       const cursorDot = document.getElementById("cursor-dot");
-      const cursorRing = document.getElementById("cursor-ring");
-      const mouseLight = document.getElementById("mouse-light");
-
       let xToDot = gsap.quickTo(cursorDot, "x", {
-        duration: 0.05,
+        duration: 0.1,
         ease: "power3",
       });
       let yToDot = gsap.quickTo(cursorDot, "y", {
-        duration: 0.05,
-        ease: "power3",
-      });
-      let xToRing = gsap.quickTo(cursorRing, "x", {
-        duration: 0.4,
-        ease: "power3",
-      });
-      let yToRing = gsap.quickTo(cursorRing, "y", {
-        duration: 0.4,
+        duration: 0.1,
         ease: "power3",
       });
 
@@ -759,15 +668,6 @@
         if (window.matchMedia("(pointer: fine)").matches) {
           xToDot(e.clientX);
           yToDot(e.clientY);
-          xToRing(e.clientX);
-          yToRing(e.clientY);
-
-          gsap.to(mouseLight, {
-            x: e.clientX,
-            y: e.clientY,
-            duration: 1.5,
-            ease: "power2.out",
-          });
         }
       });
 
@@ -785,18 +685,18 @@
       // --- 3. THE "WOW FACTOR" KINETIC IMAGE TRAIL ---
       const heroCanvas = document.getElementById("hero-canvas");
 
-      // Array of ultra-luxury interior images
+      // Array of premium interior images
       const images = [
-        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800",
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800",
-        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800",
-        "https://images.unsplash.com/photo-1556912172-45b7ee88c442?w=800",
-        "https://images.unsplash.com/photo-1592477976530-fa609139886c?w=800",
+        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600",
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600",
+        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=600",
+        "https://images.unsplash.com/photo-1556912172-45b7ee88c442?w=600",
+        "https://images.unsplash.com/photo-1592477976530-fa609139886c?w=600",
       ];
 
       let globalIndex = 0;
       let lastObj = { x: 0, y: 0 };
-      const distanceThreshold = 180; // Slower spawn rate for elegance
+      const distanceThreshold = 150; // Spawn new image every 150px moved
 
       heroCanvas.addEventListener("mousemove", (e) => {
         const distance = Math.hypot(
@@ -808,12 +708,15 @@
           lastObj.x = e.clientX;
           lastObj.y = e.clientY;
 
+          // Create Image Element
           const img = document.createElement("img");
           img.src = images[globalIndex % images.length];
           img.classList.add("trail-img");
 
-          const rotation = Math.random() * 16 - 8;
+          // Randomize slight rotation for organic feel
+          const rotation = Math.random() * 20 - 10;
 
+          // Set initial position
           gsap.set(img, {
             left: e.clientX,
             top: e.clientY,
@@ -822,7 +725,7 @@
 
           heroCanvas.appendChild(img);
 
-          // Luxurious cinematic fade and blur reveal
+          // Animate In & Out
           gsap
             .timeline({
               onComplete: () => {
@@ -832,21 +735,19 @@
             .to(img, {
               opacity: 1,
               scale: 1,
-              filter: "blur(0px) brightness(1)",
-              duration: 0.6,
+              duration: 0.4,
               ease: "power2.out",
             })
             .to(
               img,
               {
                 opacity: 0,
-                scale: 0.85,
-                y: "+=80",
-                filter: "blur(10px) brightness(0.5)",
-                duration: 1.2,
-                ease: "power2.inOut",
+                scale: 0.8,
+                y: "+=100",
+                duration: 0.8,
+                ease: "power2.in",
               },
-              "+=0.4"
+              "+=0.2"
             );
 
           globalIndex++;
@@ -873,11 +774,11 @@
       gsap.utils.toArray(".gs-reveal").forEach(function (elem) {
         gsap.fromTo(
           elem,
-          { y: 50, autoAlpha: 0 },
+          { y: 40, autoAlpha: 0 },
           {
             y: 0,
             autoAlpha: 1,
-            duration: 1.5,
+            duration: 1.2,
             ease: "power3.out",
             scrollTrigger: {
               trigger: elem,
@@ -888,7 +789,7 @@
         );
       });
 
-      // --- 6. HORIZONTAL SCROLL GALLERY ---
+      // --- 6. HORIZONTAL SCROLL ---
       let mm = gsap.matchMedia();
       mm.add("(min-width: 1024px)", () => {
         const scrollWrapper = document.querySelector(
@@ -903,7 +804,7 @@
           scrollTrigger: {
             trigger: scrollWrapper,
             pin: true,
-            scrub: 1.5, // Smoother scrub
+            scrub: 1,
             end: () => "+=" + slider.offsetWidth,
           },
         });
