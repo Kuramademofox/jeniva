@@ -15,10 +15,9 @@
       @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,500;1,6..96,300;1,6..96,400&family=Manrope:wght@200;300;400;500;600&display=swap");
 
       :root {
-        --bg-obsidian: #090c09; /* Deep Forest Black */
-        --text-pearl: #f4f0ea; /* Alabaster Cream */
-        --accent-gold: #c5a880; /* Champagne Bronze */
-        --gold-glow: rgba(197, 168, 128, 0.05);
+        --bg-obsidian: #1a1a1d;
+        --text-pearl: #f4f0ea;
+        --accent-gold: #c8a97e;
       }
 
       body {
@@ -57,7 +56,7 @@
       #cursor-ring {
         width: 36px;
         height: 36px;
-        border: 1px solid rgba(197, 168, 128, 0.4);
+        border: 1px solid rgba(200, 169, 126, 0.4);
         border-radius: 50%;
         position: fixed;
         top: 0;
@@ -73,15 +72,15 @@
       body.hover-active #cursor-ring {
         width: 70px;
         height: 70px;
-        background-color: rgba(197, 168, 128, 0.08);
-        backdrop-filter: blur(4px);
+        background-color: rgba(200, 169, 126, 0.05);
+        backdrop-filter: blur(2px);
         border-color: var(--accent-gold);
       }
       body.hover-active #cursor-dot {
         opacity: 0;
       }
 
-      /* --- 2. ATMOSPHERIC LIGHTING & NOISE --- */
+      /* --- 2. ATMOSPHERIC NOISE & LIGHTING --- */
       .ambient-light {
         position: fixed;
         width: 70vw;
@@ -91,8 +90,8 @@
         left: 50%;
         background: radial-gradient(
           circle,
-          var(--gold-glow) 0%,
-          rgba(9, 12, 9, 0) 60%
+          rgba(200, 169, 126, 0.03) 0%,
+          rgba(26, 26, 29, 0) 60%
         );
         transform: translate(-50%, -50%);
         pointer-events: none;
@@ -103,7 +102,7 @@
         inset: 0;
         z-index: 50;
         pointer-events: none;
-        opacity: 0.04;
+        opacity: 0.03;
         background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
       }
       .vignette {
@@ -111,10 +110,14 @@
         inset: 0;
         pointer-events: none;
         z-index: 40;
-        background: radial-gradient(circle, transparent 40%, #050705 130%);
+        background: radial-gradient(
+          circle,
+          transparent 50%,
+          rgba(0, 0, 0, 0.4) 130%
+        );
       }
 
-      /* --- 3. KINETIC IMAGE TRAIL (UPGRADED) --- */
+      /* --- 3. KINETIC IMAGE TRAIL --- */
       #hero-canvas {
         position: absolute;
         inset: 0;
@@ -131,9 +134,8 @@
         transform: translate(-50%, -50%) scale(0.8);
         opacity: 0;
         pointer-events: none;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-        filter: blur(10px) brightness(0.8);
-        will-change: transform, opacity, filter;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        will-change: transform, opacity;
         z-index: 2;
       }
 
@@ -153,14 +155,14 @@
         font-size: 2.5rem;
         font-weight: 300;
         letter-spacing: 0.1em;
-        color: var(--accent-gold);
+        color: var(--text-pearl);
         opacity: 0;
       }
       #loading-percent {
         margin-top: 20px;
         font-size: 11px;
         letter-spacing: 0.5em;
-        color: rgba(244, 240, 234, 0.5);
+        color: var(--accent-gold);
         font-family: "Manrope", sans-serif;
       }
 
@@ -195,12 +197,16 @@
       /* The Magnetic Button */
       .magnetic-wrap {
         display: inline-block;
-        padding: 30px;
-        margin: -30px;
       }
       .magnetic-btn {
         display: inline-block;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      @media (min-width: 768px) {
+        .magnetic-wrap {
+          padding: 30px;
+          margin: -30px;
+        }
       }
 
       /* Horizontal Scroll Overrides */
@@ -223,7 +229,6 @@
         flex-direction: column;
         justify-content: center;
       }
-
       @media (min-width: 1024px) {
         .horizontal-slider {
           flex-direction: row;
@@ -237,21 +242,28 @@
         }
       }
 
-      /* Giant Hero Text */
+      /* Hero Title: Watermark Style */
       .hero-title {
         font-size: 16vw;
         line-height: 0.8;
         letter-spacing: -0.03em;
         color: transparent;
-        -webkit-text-stroke: 1px rgba(197, 168, 128, 0.2);
+        -webkit-text-stroke: 1px rgba(244, 240, 234, 0.15);
         position: relative;
         z-index: 10;
         pointer-events: none;
-        mix-blend-mode: exclusion;
+      }
+
+      /* Mobile Menu Toggle Animation */
+      #mobile-menu.is-open {
+        opacity: 1;
+        pointer-events: auto;
       }
     </style>
   </head>
-  <body class="selection:bg-[#C5A880] selection:text-[#090C09] loading-active">
+  <body
+    class="selection:bg-[#C8A97E] selection:text-[#1A1A1D] loading-active bg-[#1A1A1D] text-[#F4F0EA]"
+  >
     <!-- PRELOADER -->
     <div id="preloader">
       <div class="loading-text">JÈNIVA</div>
@@ -267,74 +279,118 @@
     <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION WITH STRICT CIRCULAR CONTAINER -->
     <nav
-      class="fixed w-full z-40 px-8 md:px-14 py-8 opacity-0 invisible mix-blend-difference"
+      class="fixed w-full z-50 px-6 md:px-14 py-6 md:py-8 opacity-0 invisible"
       id="main-nav"
     >
       <div
         class="max-w-[1600px] mx-auto flex justify-between items-center text-[#F4F0EA]"
       >
+        <!-- Logo & Name Container -->
         <div
-          class="text-xl md:text-2xl tracking-[0.4em] uppercase font-light interactive-target"
+          class="flex items-center gap-3 md:gap-4 interactive-target relative z-50"
         >
-          JÈNIVA
-          <span
-            class="text-[#C5A880] italic font-editorial text-2xl md:text-3xl lowercase"
-            >.</span
+          <!-- STRICT CIRCULAR CONTAINER -->
+          <div
+            class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-[#C8A97E]/30 bg-[#131315] flex items-center justify-center shrink-0"
           >
+            <!-- ADD YOUR LOGO HERE -->
+            <img
+              src="YOUR-LOGO-HERE.png"
+              alt="JÈNIVA Logo"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div
+            class="text-xl md:text-2xl tracking-[0.4em] uppercase font-light mt-1"
+          >
+            JÈNIVA<span
+              class="text-[#C8A97E] italic font-editorial text-2xl md:text-3xl lowercase"
+              >.</span
+            >
+          </div>
         </div>
 
+        <!-- Desktop Menu -->
         <div
-          class="hidden lg:flex gap-16 text-[10px] tracking-[0.3em] uppercase font-bold"
+          class="hidden lg:flex gap-16 text-[10px] tracking-[0.3em] uppercase font-bold mt-1"
         >
           <a
             href="#services"
-            class="hover-line interactive-target hover:text-[#C5A880] transition-colors"
+            class="hover-line interactive-target hover:text-[#C8A97E] transition-colors"
             >Our Process</a
           >
           <a
             href="#gallery"
-            class="hover-line interactive-target hover:text-[#C5A880] transition-colors"
+            class="hover-line interactive-target hover:text-[#C8A97E] transition-colors"
             >Exhibition</a
           >
           <a
             href="#booking"
-            class="hover-line interactive-target text-[#C5A880]"
+            class="hover-line interactive-target text-[#C8A97E]"
             >Commission</a
           >
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="menu-toggle"
+          class="lg:hidden text-[#C8A97E] text-[10px] tracking-[0.3em] uppercase font-bold interactive-target relative z-50"
+        >
+          Menu
+        </button>
       </div>
     </nav>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 bg-[#1A1A1D] z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500"
+    >
+      <div
+        class="flex flex-col items-center gap-12 text-[12px] tracking-[0.4em] uppercase font-bold text-[#F4F0EA]"
+      >
+        <a
+          href="#services"
+          class="mobile-link interactive-target hover:text-[#C8A97E]"
+          >Our Process</a
+        >
+        <a
+          href="#gallery"
+          class="mobile-link interactive-target hover:text-[#C8A97E]"
+          >Exhibition</a
+        >
+        <a href="#booking" class="mobile-link interactive-target text-[#C8A97E]"
+          >Commission</a
+        >
+      </div>
+    </div>
 
     <!-- THE KINETIC IMAGE TRAIL HERO -->
     <section
       id="home"
-      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#090C09] interactive-target-area"
+      class="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#1A1A1D] interactive-target-area"
     >
-      <!-- Images spawn here when mouse moves -->
       <div id="hero-canvas"></div>
-
-      <!-- Massive Background Text -->
       <div
         class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 gs-reveal-hero"
       >
         <h1 class="hero-title font-editorial">JÈNIVA</h1>
         <p
-          class="text-[10px] md:text-xs tracking-[0.6em] uppercase mt-8 text-[#C5A880] font-semibold text-center w-full"
+          class="text-[10px] md:text-xs tracking-[0.6em] uppercase mt-8 text-[#C8A97E] font-semibold text-center w-full"
         >
           Interactive Spatial Design & VR Prototyping
         </p>
       </div>
-
-      <!-- Scroll Indicator -->
       <div
-        class="absolute bottom-10 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.4em] uppercase text-[#F4F0EA]/40 flex flex-col items-center gap-4 z-20 gs-reveal-hero"
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.4em] uppercase text-[#F4F0EA]/50 flex flex-col items-center gap-4 z-20 gs-reveal-hero"
       >
         <span>Scroll</span>
         <div class="w-[1px] h-12 bg-[#F4F0EA]/20 overflow-hidden relative">
           <div
-            class="w-full h-full bg-[#C5A880] absolute top-[-100%] animate-[scrollDown_2s_infinite]"
+            class="w-full h-full bg-[#C8A97E] absolute top-[-100%] animate-[scrollDown_2s_infinite]"
           ></div>
         </div>
       </div>
@@ -347,117 +403,115 @@
       </style>
     </section>
 
-    <!-- SERVICES (The Updated Process Section) -->
+    <!-- SERVICES -->
     <section
       id="services"
-      class="py-32 md:py-48 px-6 md:px-12 bg-[#090C09] relative z-10"
+      class="py-20 md:py-48 px-6 md:px-12 bg-[#1A1A1D] relative z-10"
     >
       <div class="max-w-[1400px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          <div class="lg:col-span-5 sticky top-40 gs-reveal">
-            <span
-              class="text-[10px] tracking-[0.4em] uppercase text-[#C5A880] font-bold block mb-8"
-              >01 / The Process</span
-            >
-            <h2
-              class="text-5xl md:text-7xl font-editorial text-[#F4F0EA] mb-8 leading-[1.1]"
-            >
-              Architecting <br /><span class="italic text-[#F4F0EA]/50"
-                >Perfection.</span
+          <div class="lg:col-span-5 lg:sticky top-40 self-start z-20">
+            <div class="gs-reveal">
+              <span
+                class="text-[10px] tracking-[0.4em] uppercase text-[#C8A97E] font-bold block mb-8"
+                >01 / The Process</span
               >
-            </h2>
-            <p
-              class="text-[#F4F0EA]/60 font-light text-sm md:text-base leading-relaxed max-w-sm mb-12"
-            >
-              Our methodology is rooted in precision. From the initial abstract
-              vision to the final placement of stone, we engineer environments
-              of absolute luxury.
-            </p>
-            <div class="magnetic-wrap">
-              <a
-                href="#booking"
-                class="magnetic-btn interactive-target text-[10px] tracking-[0.3em] uppercase border border-[#C5A880] text-[#C5A880] px-8 py-4 rounded-full hover:bg-[#C5A880] hover:text-[#090C09] transition-all duration-500 font-bold"
+              <h2
+                class="text-5xl md:text-7xl font-editorial text-[#F4F0EA] mb-8 leading-[1.1]"
               >
-                Initiate Dialogue
-              </a>
+                Architecting <br /><span class="italic text-[#F4F0EA]/40"
+                  >Perfection.</span
+                >
+              </h2>
+              <p
+                class="text-[#F4F0EA]/60 font-light text-sm md:text-base leading-relaxed max-w-sm mb-12"
+              >
+                Our methodology is rooted in precision. From the initial
+                abstract vision to the final placement of stone, we engineer
+                environments of absolute luxury.
+              </p>
+              <div class="magnetic-wrap">
+                <a
+                  href="#booking"
+                  class="magnetic-btn interactive-target text-[10px] tracking-[0.3em] uppercase border border-[#F4F0EA] text-[#F4F0EA] px-8 py-4 rounded-full hover:bg-[#F4F0EA] hover:text-[#1A1A1D] transition-all duration-500 font-bold"
+                >
+                  Initiate Dialogue
+                </a>
+              </div>
             </div>
           </div>
 
           <div class="lg:col-span-7 space-y-24 mt-16 lg:mt-0">
-            <!-- Process Step 1 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://i.pinimg.com/1200x/ba/a5/1c/baa51ceb2d82bac0b61b9cdaacb189b6.jpg"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C8A97E] group-hover:italic transition-colors"
               >
                 1. Conceptualization & Planning
               </h3>
-              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+              <p class="text-sm text-[#F4F0EA]/60 font-light max-w-md">
                 Establishing the foundational narrative. We translate your
                 abstract desires into rigorous spatial layouts, balancing
                 psychological comfort with pure architectural geometry.
               </p>
             </div>
 
-            <!-- Process Step 2 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C8A97E] group-hover:italic transition-colors"
               >
                 2. Specification & Selection
               </h3>
-              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+              <p class="text-sm text-[#F4F0EA]/60 font-light max-w-md">
                 Curating the physical palette. Every slab of stone, piece of
                 blackened timber, and light fixture is meticulously sourced and
                 selected to ensure uncompromising tactile luxury.
               </p>
             </div>
 
-            <!-- Process Step 3 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://i.pinimg.com/736x/40/10/ce/4010ce2931f54290f3bec2aefda350d8.jpg"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C8A97E] group-hover:italic transition-colors"
               >
-                3. Project Management & Execution
+                3. Project Management
               </h3>
-              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+              <p class="text-sm text-[#F4F0EA]/60 font-light max-w-md">
                 Bringing the simulation to reality. We orchestrate elite
                 craftsmen and engineers, ensuring the final environment reflects
                 the initial blueprint with microscopic precision.
               </p>
             </div>
 
-            <!-- Process Step 4 -->
             <div class="gs-reveal group interactive-target">
               <div class="overflow-hidden rounded-sm mb-8 relative">
                 <img
                   src="https://i.pinimg.com/736x/ad/73/9d/ad739d692169e0290109ac86d5e27635.jpg"
-                  class="w-full aspect-[4/3] object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
+                  class="w-full aspect-[4/3] object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s]"
                 />
               </div>
               <h3
-                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C5A880] group-hover:italic transition-colors"
+                class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4 group-hover:text-[#C8A97E] group-hover:italic transition-colors"
               >
-                4. Hae Concrete
+                4. Hey Concrete
               </h3>
-              <p class="text-sm text-[#F4F0EA]/50 font-light max-w-md">
+              <p class="text-sm text-[#F4F0EA]/60 font-light max-w-md">
                 Mastering the monolithic aesthetic. We utilize proprietary,
                 high-end concrete formulations to sculpt seamless, brutalist
                 structures that command both presence and permanence.
@@ -468,17 +522,17 @@
       </div>
     </section>
 
-    <!-- HORIZONTAL GALLERY (The Archives) -->
+    <!-- HORIZONTAL GALLERY -->
     <section
       id="gallery"
-      class="bg-[#050705] overflow-hidden border-y border-[#F4F0EA]/5 relative z-10"
+      class="bg-[#131315] overflow-hidden border-y border-[#F4F0EA]/5 relative z-10"
     >
       <div class="horizontal-scroll-wrapper lg:h-screen flex items-center">
         <div class="horizontal-slider">
           <div class="panel">
             <div class="max-w-[1400px] w-full mx-auto gs-reveal">
               <span
-                class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#C5A880] font-bold block mb-8"
+                class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] text-[#C8A97E] font-bold block mb-8"
                 >02 / The Archives</span
               >
               <h2
@@ -505,18 +559,18 @@
               </div>
               <div class="w-full lg:w-5/12">
                 <p
-                  class="text-[10px] tracking-[0.4em] uppercase text-[#C5A880] mb-6 font-bold"
+                  class="text-[10px] tracking-[0.4em] uppercase text-[#C8A97E] mb-6 font-bold"
                 >
                   Jubilee Hills
                 </p>
                 <h3
-                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F4F0EA] leading-tight"
+                  class="text-3xl md:text-5xl lg:text-7xl font-editorial mb-6 md:mb-8 text-[#F4F0EA] leading-tight"
                 >
                   The Onyx <br class="hidden lg:block" />Estate
                 </h3>
                 <a
                   href="#"
-                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F4F0EA] hover-line interactive-target hover:text-[#C5A880] transition-colors"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F4F0EA] hover-line interactive-target hover:text-[#C8A97E] transition-colors"
                   >Explore Volume</a
                 >
               </div>
@@ -537,18 +591,18 @@
               </div>
               <div class="w-full lg:w-5/12 text-left lg:text-right">
                 <p
-                  class="text-[10px] tracking-[0.4em] uppercase text-[#C5A880] mb-6 font-bold"
+                  class="text-[10px] tracking-[0.4em] uppercase text-[#C8A97E] mb-6 font-bold"
                 >
                   Banjara Hills
                 </p>
                 <h3
-                  class="text-4xl md:text-5xl lg:text-7xl font-editorial mb-8 text-[#F4F0EA] leading-tight"
+                  class="text-3xl md:text-5xl lg:text-7xl font-editorial mb-6 md:mb-8 text-[#F4F0EA] leading-tight"
                 >
                   Golden <br class="hidden lg:block" />Minimalism
                 </h3>
                 <a
                   href="#"
-                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F4F0EA] hover-line interactive-target hover:text-[#C5A880] transition-colors"
+                  class="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[#F4F0EA] hover-line interactive-target hover:text-[#C8A97E] transition-colors"
                   >Explore Volume</a
                 >
               </div>
@@ -561,19 +615,19 @@
     <!-- COMMISSION SECTION -->
     <section
       id="booking"
-      class="py-32 md:py-48 px-6 md:px-8 bg-[#090C09] relative z-10"
+      class="py-20 md:py-48 px-6 md:px-8 bg-[#1A1A1D] relative z-10"
     >
       <div class="max-w-4xl mx-auto text-center gs-reveal">
         <h2
           class="text-5xl md:text-7xl lg:text-9xl font-editorial mb-8 text-[#F4F0EA] leading-[1] md:leading-[0.9]"
         >
           Commission <br class="hidden md:block" /><span
-            class="italic text-[#C5A880]"
+            class="italic text-[#C8A97E]"
             >Jèniva.</span
           >
         </h2>
         <p
-          class="text-[#F4F0EA]/50 mb-16 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-xl"
+          class="text-[#F4F0EA]/60 mb-16 md:mb-24 font-light max-w-lg mx-auto text-sm md:text-xl"
         >
           We execute a strictly limited number of commissions per fiscal year.
           Provide your coordinates below.
@@ -587,7 +641,7 @@
               class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F4F0EA]/30 text-[#F4F0EA] interactive-target"
             />
             <div
-              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C5A880] transition-all duration-700 group-hover:w-full"
+              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C8A97E] transition-all duration-700 group-hover:w-full"
             ></div>
           </div>
           <div class="border-b border-[#F4F0EA]/20 py-4 md:py-6 relative group">
@@ -597,14 +651,14 @@
               class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F4F0EA]/30 text-[#F4F0EA] interactive-target"
             />
             <div
-              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C5A880] transition-all duration-700 group-hover:w-full"
+              class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C8A97E] transition-all duration-700 group-hover:w-full"
             ></div>
           </div>
 
           <div class="mt-16 md:mt-24 w-full flex justify-center">
             <div class="magnetic-wrap">
               <button
-                class="interactive-target magnetic-btn bg-[#C5A880] text-[#090C09] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F4F0EA] transition-colors duration-500 font-bold"
+                class="interactive-target magnetic-btn bg-[#C8A97E] text-[#1A1A1D] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F4F0EA] transition-colors duration-500 font-bold"
               >
                 Transmit Request
               </button>
@@ -614,25 +668,40 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER WITH STRICT CIRCULAR CONTAINER -->
     <footer
-      class="py-16 md:py-32 px-6 md:px-12 border-t border-[#F4F0EA]/10 bg-[#090C09] relative z-10"
+      class="py-16 md:py-32 px-6 md:px-12 border-t border-[#F4F0EA]/10 bg-[#1A1A1D] relative z-10"
     >
       <div
         class="max-w-[1600px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-12 lg:gap-24"
       >
         <div class="w-full lg:w-auto">
-          <div
-            class="text-3xl md:text-4xl tracking-[0.4em] uppercase font-light text-[#F4F0EA] mb-4 md:mb-6"
-          >
-            JÈNIVA
-            <span
-              class="text-[#C5A880] italic font-editorial text-4xl md:text-5xl lowercase"
-              >.</span
+          <!-- Logo & Name Container -->
+          <div class="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+            <!-- STRICT CIRCULAR CONTAINER -->
+            <div
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border border-[#C8A97E]/30 bg-[#131315] flex items-center justify-center shrink-0"
             >
+              <!-- ADD YOUR LOGO HERE -->
+              <img
+                src="YOUR-LOGO-HERE.png"
+                alt="JÈNIVA Logo"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <div
+              class="text-3xl md:text-4xl tracking-[0.4em] uppercase font-light text-[#F4F0EA] mt-1"
+            >
+              JÈNIVA<span
+                class="text-[#C8A97E] italic font-editorial text-4xl md:text-5xl lowercase"
+                >.</span
+              >
+            </div>
           </div>
+
           <p
-            class="text-xs md:text-base text-[#F4F0EA]/50 max-w-sm font-light leading-relaxed"
+            class="text-xs md:text-base text-[#F4F0EA]/50 max-w-sm font-light leading-relaxed mt-4"
           >
             Operated by Phani Krishna Thirunagari. <br />Engineering
             psychological comfort through rigid materiality.
@@ -644,28 +713,28 @@
         >
           <ul class="space-y-6 text-[#F4F0EA]">
             <li
-              class="text-[#C5A880] mb-8 font-editorial italic text-lg md:text-xl lowercase"
+              class="text-[#C8A97E] mb-8 font-editorial italic text-lg md:text-xl lowercase"
             >
               Network
             </li>
             <li>
               <a
                 href="#"
-                class="hover:text-[#C5A880] transition-colors interactive-target"
+                class="hover:text-[#C8A97E] transition-colors interactive-target"
                 >Instagram</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="hover:text-[#C5A880] transition-colors interactive-target"
+                class="hover:text-[#C8A97E] transition-colors interactive-target"
                 >Behance</a
               >
             </li>
           </ul>
           <ul class="space-y-6 text-[#F4F0EA]">
             <li
-              class="text-[#C5A880] mb-8 font-editorial italic text-lg md:text-xl lowercase"
+              class="text-[#C8A97E] mb-8 font-editorial italic text-lg md:text-xl lowercase"
             >
               HQ
             </li>
@@ -680,12 +749,39 @@
     <script>
       gsap.registerPlugin(ScrollTrigger);
 
+      // --- 0. MOBILE MENU LOGIC ---
+      const menuBtn = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileLinks = document.querySelectorAll(".mobile-link");
+      let menuOpen = false;
+
+      menuBtn.addEventListener("click", () => {
+        menuOpen = !menuOpen;
+        if (menuOpen) {
+          mobileMenu.classList.add("is-open");
+          menuBtn.innerText = "CLOSE";
+          document.body.style.overflow = "hidden";
+        } else {
+          mobileMenu.classList.remove("is-open");
+          menuBtn.innerText = "MENU";
+          document.body.style.overflow = "";
+        }
+      });
+
+      mobileLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.remove("is-open");
+          menuBtn.innerText = "MENU";
+          document.body.style.overflow = "";
+          menuOpen = false;
+        });
+      });
+
       // --- 1. PRELOADER LOGIC ---
       const preloader = document.getElementById("preloader");
       const loadingPercent = document.getElementById("loading-percent");
       const loadingText = document.querySelector(".loading-text");
       const mainNav = document.getElementById("main-nav");
-
       let progress = 0;
 
       gsap.to(loadingText, { opacity: 1, duration: 1, ease: "power2.out" });
@@ -724,10 +820,8 @@
           { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }
         );
         document.querySelectorAll(".clip-reveal").forEach((el) => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight) {
+          if (el.getBoundingClientRect().top < window.innerHeight)
             el.classList.add("is-visible");
-          }
         });
       }
 
@@ -770,7 +864,7 @@
       });
 
       document
-        .querySelectorAll(".interactive-target, a, button, input")
+        .querySelectorAll(".interactive-target, a, button, input, img")
         .forEach((el) => {
           el.addEventListener("mouseenter", () =>
             document.body.classList.add("hover-active")
@@ -780,10 +874,8 @@
           );
         });
 
-      // --- 3. THE "WOW FACTOR" KINETIC IMAGE TRAIL ---
+      // --- 3. THE KINETIC IMAGE TRAIL ---
       const heroCanvas = document.getElementById("hero-canvas");
-
-      // Array of premium interior images
       const images = [
         "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600",
         "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600",
@@ -794,42 +886,31 @@
 
       let globalIndex = 0;
       let lastObj = { x: 0, y: 0 };
-      const distanceThreshold = 150; // Spawn new image every 150px moved
+      const distanceThreshold = 150;
 
       heroCanvas.addEventListener("mousemove", (e) => {
         const distance = Math.hypot(
           e.clientX - lastObj.x,
           e.clientY - lastObj.y
         );
-
         if (distance > distanceThreshold) {
           lastObj.x = e.clientX;
           lastObj.y = e.clientY;
 
-          // Create Image Element
           const img = document.createElement("img");
           img.src = images[globalIndex % images.length];
           img.classList.add("trail-img");
 
-          // Randomize slight rotation for organic feel
           const rotation = Math.random() * 20 - 10;
-
-          // Set initial position
           gsap.set(img, {
             left: e.clientX,
             top: e.clientY,
             rotation: rotation,
           });
-
           heroCanvas.appendChild(img);
 
-          // Animate In & Out
           gsap
-            .timeline({
-              onComplete: () => {
-                img.remove();
-              },
-            })
+            .timeline({ onComplete: () => img.remove() })
             .to(img, {
               opacity: 1,
               scale: 1,
@@ -847,7 +928,6 @@
               },
               "+=0.2"
             );
-
           globalIndex++;
         }
       });
