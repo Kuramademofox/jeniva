@@ -275,6 +275,43 @@
     <div class="vignette"></div>
     <div class="ambient-light" id="mouse-light"></div>
 
+    <!-- SUCCESS POPUP (Hidden by default) -->
+    <div
+      id="success-popup"
+      class="fixed inset-0 bg-[#1A1A1D]/80 backdrop-blur-md z-[100000] flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500"
+    >
+      <div
+        class="bg-[#131315] border border-[#C8A97E]/30 p-12 md:p-20 flex flex-col items-center text-center max-w-lg mx-4 rounded-sm shadow-2xl relative"
+      >
+        <svg
+          class="w-12 h-12 text-[#C8A97E] mb-6 interactive-target"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M5 13l4 4L19 7"
+          ></path>
+        </svg>
+        <h3 class="text-3xl md:text-4xl font-editorial text-[#F4F0EA] mb-4">
+          Transmission<br />Successful
+        </h3>
+        <p class="text-[#F4F0EA]/60 text-sm font-light mb-10 leading-relaxed">
+          Your coordinates have been received. We will initiate contact shortly.
+        </p>
+        <button
+          id="close-popup"
+          class="text-[10px] tracking-[0.4em] uppercase text-[#C8A97E] hover-line interactive-target font-bold"
+        >
+          Close Window
+        </button>
+      </div>
+    </div>
+
     <!-- LUXURY CURSOR -->
     <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
@@ -297,7 +334,7 @@
           >
             <!-- ADD YOUR LOGO HERE -->
             <img
-              src="images/jen.jfif"
+              src="images/jen1.jpeg"
               alt="JÈNIVA Logo"
               class="w-full h-full object-cover"
             />
@@ -612,7 +649,7 @@
       </div>
     </section>
 
-    <!-- COMMISSION SECTION -->
+    <!-- COMMISSION SECTION WITH AJAX FORM -->
     <section
       id="booking"
       class="py-20 md:py-48 px-6 md:px-8 bg-[#1A1A1D] relative z-10"
@@ -633,10 +670,20 @@
           Provide your coordinates below.
         </p>
 
-        <form class="space-y-12 md:space-y-20 text-left">
+        <form id="commission-form" class="space-y-12 md:space-y-20 text-left">
+          <!-- Formsubmit settings -->
+          <input
+            type="hidden"
+            name="_subject"
+            value="New JÈNIVA Commission Request"
+          />
+          <input type="hidden" name="_captcha" value="false" />
+
           <div class="border-b border-[#F4F0EA]/20 py-4 md:py-6 relative group">
             <input
               type="text"
+              name="name"
+              required
               placeholder="Name / Designation"
               class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F4F0EA]/30 text-[#F4F0EA] interactive-target"
             />
@@ -647,6 +694,8 @@
           <div class="border-b border-[#F4F0EA]/20 py-4 md:py-6 relative group">
             <input
               type="email"
+              name="email"
+              required
               placeholder="Direct Email"
               class="w-full bg-transparent outline-none text-2xl md:text-4xl font-editorial font-light placeholder-[#F4F0EA]/30 text-[#F4F0EA] interactive-target"
             />
@@ -658,7 +707,9 @@
           <div class="mt-16 md:mt-24 w-full flex justify-center">
             <div class="magnetic-wrap">
               <button
-                class="interactive-target magnetic-btn bg-[#C8A97E] text-[#1A1A1D] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F4F0EA] transition-colors duration-500 font-bold"
+                type="submit"
+                id="submit-btn"
+                class="interactive-target magnetic-btn bg-[#C8A97E] text-[#1A1A1D] px-16 md:px-24 py-6 md:py-8 rounded-full uppercase tracking-[0.4em] text-[10px] md:text-[12px] hover:bg-[#F4F0EA] transition-colors duration-500 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Transmit Request
               </button>
@@ -684,7 +735,7 @@
             >
               <!-- ADD YOUR LOGO HERE -->
               <img
-                src="images/je"
+                src="images/jen.jfif"
                 alt="JÈNIVA Logo"
                 class="w-full h-full object-cover"
               />
@@ -1006,6 +1057,57 @@
             onEnter: () => elem.classList.add("is-visible"),
           });
         });
+      });
+
+      // --- 7. FORM SUBMISSION & SUCCESS POPUP LOGIC ---
+      const form = document.getElementById("commission-form");
+      const submitBtn = document.getElementById("submit-btn");
+      const successPopup = document.getElementById("success-popup");
+      const closePopupBtn = document.getElementById("close-popup");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Change button state to loading
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = "TRANSMITTING...";
+        submitBtn.disabled = true;
+
+        const formData = new FormData(form);
+
+        // Fetch API request to Formsubmit.co
+        fetch("https://formsubmit.co/ajax/aditya12484@gmail.com", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Show custom success popup
+            successPopup.classList.remove("opacity-0", "pointer-events-none");
+            successPopup.classList.add("opacity-100", "pointer-events-auto");
+
+            // Reset form and button
+            form.reset();
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+          })
+          .catch((error) => {
+            console.log(error);
+            alert(
+              "Transmission failed. Please check your connection and try again."
+            );
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+          });
+      });
+
+      // Close Popup Logic
+      closePopupBtn.addEventListener("click", () => {
+        successPopup.classList.remove("opacity-100", "pointer-events-auto");
+        successPopup.classList.add("opacity-0", "pointer-events-none");
       });
     </script>
   </body>
