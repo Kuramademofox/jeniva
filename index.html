@@ -365,6 +365,11 @@
             >Exhibition</a
           >
           <a
+            href="#collab"
+            class="hover-line interactive-target hover:text-[#C8A97E] transition-colors"
+            >Alliances</a
+          >
+          <a
             href="#booking"
             class="hover-line interactive-target text-[#C8A97E]"
             >Commission</a
@@ -398,6 +403,11 @@
           href="#gallery"
           class="mobile-link interactive-target hover:text-[#C8A97E]"
           >Exhibition</a
+        >
+        <a
+          href="#collab"
+          class="mobile-link interactive-target hover:text-[#C8A97E]"
+          >Alliances</a
         >
         <a href="#booking" class="mobile-link interactive-target text-[#C8A97E]"
           >Commission</a
@@ -649,6 +659,42 @@
       </div>
     </section>
 
+    <!-- COLLABORATIONS / ALLIANCES: EXCLUSIVE PARTNER -->
+    <section
+      id="collab"
+      class="py-24 md:py-40 px-6 md:px-12 bg-[#131315] relative z-10 border-b border-[#F4F0EA]/5"
+    >
+      <div class="max-w-[1400px] mx-auto">
+        <div class="text-center gs-reveal mb-12">
+          <span
+            class="text-[10px] tracking-[0.4em] uppercase text-[#C8A97E] font-bold block mb-6"
+          >
+            03 / Alliance
+          </span>
+          <h2
+            class="text-4xl md:text-6xl font-editorial text-[#F4F0EA] leading-[1.1]"
+          >
+            Exclusive <br /><span class="italic text-[#F4F0EA]/40"
+              >Partner.</span
+            >
+          </h2>
+        </div>
+
+        <!-- Single Typographic Logo -->
+        <div
+          class="flex justify-center items-center max-w-5xl mx-auto text-center mt-12 md:mt-20"
+        >
+          <div class="gs-reveal flex justify-center interactive-target group">
+            <h3
+              class="text-4xl md:text-7xl lg:text-8xl tracking-[0.4em] uppercase font-bold text-[#F4F0EA] opacity-30 group-hover:opacity-100 group-hover:text-[#C8A97E] transition-all duration-700 m-0 ml-[0.4em]"
+            >
+              ZOARCH
+            </h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- COMMISSION SECTION WITH AJAX FORM -->
     <section
       id="booking"
@@ -735,8 +781,8 @@
             >
               <!-- ADD YOUR LOGO HERE -->
               <img
-                src="images/jen1.jpeg"
-              alt="JÈNIVA Logo"                
+                src="images/jen.jfif"
+                alt="JÈNIVA Logo"
                 class="w-full h-full object-cover"
               />
             </div>
@@ -915,7 +961,7 @@
       });
 
       document
-        .querySelectorAll(".interactive-target, a, button, input, img")
+        .querySelectorAll(".interactive-target, a, button, input, img, h3")
         .forEach((el) => {
           el.addEventListener("mouseenter", () =>
             document.body.classList.add("hover-active")
